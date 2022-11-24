@@ -1,6 +1,6 @@
 import { ChangeEvent, Fragment, useState } from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { useGameContext } from "../../hooks/useGameContext";
+import { useGameContext } from "hooks/useGameContext";
 import { ISetupDialogProps } from "./types";
 
 export const SetupDialog = ({ children }: ISetupDialogProps) => {

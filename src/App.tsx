@@ -1,6 +1,6 @@
 import './App.css';
-import { GameProvider } from './components/GameProvider';
-import { SetupDialog } from './components/SetupDialog';
+import { GameProvider } from 'components/GameProvider';
+import { SetupDialog } from 'components/SetupDialog';
 
 function App() {
   return (

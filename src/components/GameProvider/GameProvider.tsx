@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { LOCAL_STORAGE_KEY } from "../../constants";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import { GameState, IGameContext, IGameData, IGameProviderProps } from './types';
+import { LOCAL_STORAGE_KEY } from "consts";
+import { useLocalStorage } from "hooks/useLocalStorage";
+import { IGameContext, IGameData, IGameProviderProps } from './types';
 
 export const GameContext = createContext<IGameContext | null>(null);
 
@@ -19,7 +19,7 @@ export const GameProvider = ({ children }: IGameProviderProps) => {
     if (data) {
       setGameData(data);
     }
-  }, []);
+  }, [get]);
 
   const initGameData = (data: IGameData) => {
     setGameData(data);
