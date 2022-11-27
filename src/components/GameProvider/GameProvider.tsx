@@ -17,7 +17,7 @@ export const GameProvider = ({ children }: IGameProviderProps) => {
     if (data) {
       setGameData(data);
     }
-  }, []);
+  }, [get]);
 
   const initGameData = (data: TGameData) => {
     setGameData(data);

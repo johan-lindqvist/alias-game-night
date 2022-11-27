@@ -1,5 +1,7 @@
+import { useCallback } from "react";
+
 export const useLocalStorage = () => {
-  const get = <T>(key: string): T | null => {
+  const get = useCallback(<T>(key: string): T | null => {
     const data = localStorage.getItem(key);
 
     if (data) {
@@ -7,11 +9,11 @@ export const useLocalStorage = () => {
     }
   
     return null;
-  };
+  }, []);
 
-  const set = (key: string, data: any) => {
+  const set = useCallback((key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
-  };
+  }, []);
 
   return { get, set };
 };
