@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { IUploadGameDictionaryButtonProps } from "./types";
 import { schema } from './schema';
 

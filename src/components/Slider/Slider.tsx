@@ -1,4 +1,4 @@
-import { Grid, Slider as MuiSlider, Typography } from "@mui/material"
+import { Slider as MuiSlider, Typography } from "@mui/material"
 import { SliderProps } from "./types"
 import { Container, LeftCell, MidCell, RightCell } from './styled';
 

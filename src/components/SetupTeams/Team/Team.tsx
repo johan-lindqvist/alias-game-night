@@ -1,39 +1,61 @@
-import { createTeamMember } from "components/SetupDialog/utilts";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Fragment, useState } from "react";
+import { Avatar, Card, IconButton, Typography, Divider, TextField, useTheme } from "@mui/material";
+import { ClearRounded } from '@mui/icons-material';
+import { createTeamPlayer } from "utils";
+import { CardHeader, CardContent, StyledCardTitle, ContentRow } from "./styled";
 import { ITeamProps } from "./types";
 
-export const Team = ({ team, onAddTeamMember, onRemoveTeamMember }: ITeamProps) => {
-  const [newMemberName, setNewMemberName] = useState('');
-  const { color, name, members } = team;
+export const Team = ({ team, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }: ITeamProps) => {
+  const { id, color, name, players } = team;
+  const [newPlayerName, setNewPlayerName] = useState('');
+  const theme = useTheme();
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewMemberName(event.target.value);
+    setNewPlayerName(event.target.value);
   };
 
   const handleNameBlur = () => {
-    const trimmedName = newMemberName.trim();
+    const trimmedName = newPlayerName.trim();
 
     if (trimmedName.length > 1) {
-      const newTeamMember = createTeamMember(trimmedName);
+      const newTeamPlayer = createTeamPlayer(trimmedName);
 
-      onAddTeamMember(newTeamMember);
+      onAddTeamPlayer(newTeamPlayer);
     }
 
-    setNewMemberName('');
+    setNewPlayerName('');
+  }
+
+  const handleRemoveTeam = () => {
+    onRemoveTeam(id);
   }
 
   return (
-    <div style={{ border: '2px solid black '}}>
-      <p style={{ color }}>{name}</p>
-      <div>
-        {members.map((member) => (
-          <div key={member.id}>
-            <span>{member.name}</span>
-            <button onClick={() => onRemoveTeamMember(member.id)}>Remove</button>
-          </div>
+    <Card sx={{  margin: 1, width: theme.custom.teamsCard.width }}>
+      <CardHeader>
+        <Avatar sx={{ background: color }}>{name[0]}</Avatar>
+        <StyledCardTitle>{name}</StyledCardTitle>
+        <IconButton onClick={handleRemoveTeam}>
+          <ClearRounded />
+        </IconButton>
+      </CardHeader>
+      <CardContent>
+        {players.map((player) => (
+          <Fragment key={player.id}>
+            <Divider />
+            <ContentRow>
+              <Typography>{player.name}</Typography>
+              <IconButton onClick={() => onRemoveTeamPlayer(player.id)}>
+                <ClearRounded />
+              </IconButton>
+            </ContentRow>
+          </Fragment>
         ))}
-        <input type="text" value={newMemberName} onChange={handleNameChange} onBlur={handleNameBlur} />
-      </div>
-    </div>
+        <Divider />
+        <ContentRow>
+          <TextField placeholder="Enter player name" value={newPlayerName} size="small" onChange={handleNameChange} onBlur={handleNameBlur} />
+        </ContentRow>
+      </CardContent>
+    </Card>
   )
 }

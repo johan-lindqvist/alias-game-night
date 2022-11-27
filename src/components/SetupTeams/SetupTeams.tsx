@@ -1,28 +1,39 @@
-import { ISetupTeamMember } from "components/SetupDialog/types";
-import { createTeam } from "components/SetupDialog/utilts";
+import { AddRounded } from '@mui/icons-material';
+import { Typography } from '@mui/material';
+import { createTeam } from "utils";
+import { AddTeamButton, TeamsContainer } from "./styled";
 import { Team } from "./Team";
 import { ISetupTeamsProps } from "./types";
 
-export const SetupTeams = ({ teams, onAddTeam, onAddTeamMember, onRemoveTeam, onRemoveTeamMember }: ISetupTeamsProps) => {
-  const handleAddTeam = () => {
-    const newTeam = createTeam('kekw', 'orange');
+export const SetupTeams = ({ teams, onAddTeam, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }: ISetupTeamsProps) => {
+  const teamsArr = Object.values(teams);
+  const isTeamsFull = teamsArr.length >= 6;
 
-    onAddTeam(newTeam);
+  const handleAddTeam = () => {
+    if (!isTeamsFull) {
+      const newTeam = createTeam('kekw', 'orange');
+  
+      onAddTeam(newTeam);
+    }
   };
 
   return (
-    <div>
-      <h3>Teams</h3>
-      <button onClick={handleAddTeam}>Add team</button>
-      {Object.values(teams).map((team) => (
+    <TeamsContainer>
+      {teamsArr.map((team) => (
         <Team
           key={team.id}
           team={team}
-          onAddTeamMember={(member) => onAddTeamMember(team.id, member)}
-          onRemoveTeam={() => onRemoveTeam(team.id)}
-          onRemoveTeamMember={(memberId) => onRemoveTeamMember(team.id, memberId)}
+          onRemoveTeam={onRemoveTeam}
+          onAddTeamPlayer={(player) => onAddTeamPlayer(team.id, player)}
+          onRemoveTeamPlayer={(playerId) => onRemoveTeamPlayer(team.id, playerId)}
         />
       ))}
-    </div>
+      {!isTeamsFull && (
+        <AddTeamButton onClick={handleAddTeam}>
+          <AddRounded />
+          <Typography>Add team</Typography>
+        </AddTeamButton>
+      )}
+    </TeamsContainer>
   )
 };

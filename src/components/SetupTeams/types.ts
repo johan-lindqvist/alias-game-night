@@ -1,9 +1,9 @@
-import { ISetupTeam, ISetupTeams, ISetupTeamMember } from "components/SetupDialog/types";
+import { IGamePlayer, IGameTeam, TGameTeams } from "types";
 
 export interface ISetupTeamsProps {
-  teams: ISetupTeams;
-  onAddTeam: (team: ISetupTeam) => void;
-  onAddTeamMember: (teamId: string, member: ISetupTeamMember) => void;
+  teams: TGameTeams;
+  onAddTeam: (team: IGameTeam) => void;
+  onAddTeamPlayer: (teamId: string, player: IGamePlayer) => void;
   onRemoveTeam: (teamId: string) => void;
-  onRemoveTeamMember: (teamId: string, memberId: string) => void;
+  onRemoveTeamPlayer: (teamId: string, playerId: string) => void;
 }

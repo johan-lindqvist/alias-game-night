@@ -1,15 +1,22 @@
 import { ReactNode } from 'react';
+import { GameState, IGameDictionary, IGameSettings, TGameTeams } from 'types';
 
-export type GameState = 'setup' | 'playing';
-
-export interface IGameData {
-  word: string;
-  gameState: GameState;
+interface IGameDataSetup {
+  gameState: GameState.Setup;
 }
 
-export interface IGameContext extends IGameData {
-  initGameData: (data: IGameData) => void;
+interface IGameDataPlaying {
+  gameState: GameState.Playing;
+  dictionary: IGameDictionary;
+  settings: IGameSettings;
+  teams: TGameTeams;
 }
+
+export type TGameData = IGameDataSetup | IGameDataPlaying;
+
+export type TGameContext = TGameData & {
+  initGameData: (data: TGameData) => void;
+};
 
 export interface IGameProviderProps {
   children: ReactNode;
