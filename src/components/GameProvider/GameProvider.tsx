@@ -7,9 +7,7 @@ import { GameState } from "types";
 export const GameContext = createContext<TGameContext | null>(null);
 
 export const GameProvider = ({ children }: IGameProviderProps) => {
-  const [gameData, setGameData] = useState<TGameData>({
-    gameState: GameState.Setup,
-  });
+  const [gameData, setGameData] = useState<TGameData>({ gameState: GameState.Setup });
 
   const { get, set } = useLocalStorage();
 
@@ -19,17 +17,24 @@ export const GameProvider = ({ children }: IGameProviderProps) => {
     if (data) {
       setGameData(data);
     }
-  }, [get]);
+  }, []);
 
   const initGameData = (data: TGameData) => {
     setGameData(data);
     set(LOCAL_STORAGE_KEY, data);
   };
 
+  const restartGame = () => {
+    setGameData({ gameState: GameState.Setup });
+  };
+
   const value: TGameContext = {
     ...gameData,
+    restartGame,
     initGameData,
   };
+
+  console.log(value);
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

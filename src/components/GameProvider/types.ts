@@ -15,6 +15,7 @@ interface IGameDataPlaying {
 export type TGameData = IGameDataSetup | IGameDataPlaying;
 
 export type TGameContext = TGameData & {
+  restartGame: () => void;
   initGameData: (data: TGameData) => void;
 };
 
