@@ -1,6 +1,6 @@
 import { AddRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import { createTeam } from "utils";
+import { TeamGenerator } from "utils";
 import { AddTeamButton, TeamsContainer } from "./styled";
 import { Team } from "./Team";
 import { ISetupTeamsProps } from "./types";
@@ -10,10 +10,8 @@ export const SetupTeams = ({ teams, onAddTeam, onAddTeamPlayer, onRemoveTeam, on
   const isTeamsFull = teamsArr.length >= 6;
 
   const handleAddTeam = () => {
-    if (!isTeamsFull) {
-      const newTeam = createTeam('kekw', 'orange');
-  
-      onAddTeam(newTeam);
+    if (!isTeamsFull) { 
+      onAddTeam(TeamGenerator.generateTeam());
     }
   };
 

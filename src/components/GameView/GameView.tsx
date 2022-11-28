@@ -1,7 +1,9 @@
 import { useGameContext } from "hooks/useGameContext";
 
 export const GameView = () => {
-  const { restartGame } = useGameContext();
+  const { restartGame, ...rest } = useGameContext();
+
+  console.log({ rest });
 
   return (
     <div>

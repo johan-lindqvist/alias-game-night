@@ -5,13 +5,13 @@ import { UploadGameDictionaryButton } from "components/UploadGameDictionaryButto
 import { useGameContext } from "hooks/useGameContext";
 import { ISetupDialogProps } from "./types";
 import { formValuesMetaMap } from "./meta";
-import { createTeam } from "utils";
+import { TeamGenerator } from "utils";
 import { SetupTeams } from "components/SetupTeams";
 import { ColumnLeft, ColumnMiddle, ColumnRight, Container, Title } from "./styled";
 import { GameState, IGameDictionary, IGamePlayer, IGameSettings, IGameTeam, TGameTeams } from "types";
 
-const team1 = createTeam('pepega', 'red');
-const team2 = createTeam('omegalul', 'blue');
+const team1 = TeamGenerator.generateTeam();
+const team2 = TeamGenerator.generateTeam();
 
 export const SetupDialog = ({ children }: ISetupDialogProps) => {
   const { gameState, initGameData } = useGameContext();
@@ -53,6 +53,8 @@ export const SetupDialog = ({ children }: ISetupDialogProps) => {
 
   const handleRemoveTeam = (id: string) => {
     const { [id]: removedTeam, ...restTeams } = teams;
+
+    TeamGenerator.releaseTeam(removedTeam);
 
     setTeams(restTeams);
   };

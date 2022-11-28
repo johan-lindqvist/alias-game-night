@@ -19,13 +19,17 @@ export const GameProvider = ({ children }: IGameProviderProps) => {
     }
   }, [get]);
 
-  const initGameData = (data: TGameData) => {
+  const updateGameData = (data: TGameData) => {
     setGameData(data);
     set(LOCAL_STORAGE_KEY, data);
+  }
+
+  const initGameData = (data: TGameData) => {
+    updateGameData(data);
   };
 
   const restartGame = () => {
-    setGameData({ gameState: GameState.Setup });
+    updateGameData({ gameState: GameState.Setup });
   };
 
   const value: TGameContext = {

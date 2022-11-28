@@ -40,4 +40,4 @@ export const TEAM_COLORS = [
   'orange',
   'cyan',
   'magenta'
-]
+];

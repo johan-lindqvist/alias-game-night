@@ -1,7 +1,7 @@
 import { ChangeEvent, Fragment, useState } from "react";
-import { Avatar, Card, IconButton, Typography, Divider, TextField, useTheme } from "@mui/material";
 import { ClearRounded } from '@mui/icons-material';
-import { createTeamPlayer } from "utils";
+import { Avatar, Card, IconButton, Typography, Divider, TextField, useTheme } from "@mui/material";
+import { v4 } from "uuid";
 import { CardHeader, CardContent, StyledCardTitle, ContentRow } from "./styled";
 import { ITeamProps } from "./types";
 
@@ -18,7 +18,7 @@ export const Team = ({ team, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }
     const trimmedName = newPlayerName.trim();
 
     if (trimmedName.length > 1) {
-      const newTeamPlayer = createTeamPlayer(trimmedName);
+      const newTeamPlayer = { id: v4(), name: trimmedName };
 
       onAddTeamPlayer(newTeamPlayer);
     }
