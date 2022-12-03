@@ -1,5 +1,7 @@
-import 'styled-components';
 import { Theme } from '@mui/material';
+
+import 'styled-components';
+
 import { customTheme } from './theme';
 
 type TCustomTheme = typeof customTheme;

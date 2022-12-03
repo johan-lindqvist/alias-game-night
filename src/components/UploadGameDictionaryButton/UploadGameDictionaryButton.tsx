@@ -1,8 +1,9 @@
-import { ChangeEvent } from "react";
-import { IUploadGameDictionaryButtonProps } from "./types";
-import { schema } from './schema';
+import { ChangeEvent } from 'react';
 
-export const UploadGameDictionaryButton = ({ onFileUpload }: IUploadGameDictionaryButtonProps) => {
+import { schema } from './schema';
+import { IUploadGameDictionaryButtonProps } from './types';
+
+export function UploadGameDictionaryButton({ onFileUpload }: IUploadGameDictionaryButtonProps) {
   const isJsonValid = async (json: any): Promise<boolean> => {
     try {
       await schema.validate(json);
@@ -18,19 +19,17 @@ export const UploadGameDictionaryButton = ({ onFileUpload }: IUploadGameDictiona
 
     if (result) {
       const json = JSON.parse(result as string);
-      
+
       const valid = await isJsonValid(json);
 
       if (valid) {
         onFileUpload(json);
-      } else {
-        console.log('nope');
       }
     }
   };
 
   const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
+    const { files } = event.target;
 
     if (files) {
       const file = files[0];
@@ -41,5 +40,5 @@ export const UploadGameDictionaryButton = ({ onFileUpload }: IUploadGameDictiona
     }
   };
 
-  return <input type="file" accept="application/json" onChange={onFileChange} />
-};
+  return <input type="file" accept="application/json" onChange={onFileChange} />;
+}

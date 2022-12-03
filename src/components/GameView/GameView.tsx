@@ -1,14 +1,14 @@
-import { useGameContext } from "hooks/useGameContext";
+import { useGameContext } from '~/hooks/useGameContext';
 
-export const GameView = () => {
-  const { restartGame, ...rest } = useGameContext();
-
-  console.log({ rest });
+export function GameView() {
+  const { restartGame } = useGameContext();
 
   return (
     <div>
       <h1>Alias</h1>
-      <button onClick={restartGame}>Restart</button>
+      <button type="button" onClick={restartGame}>
+        Restart
+      </button>
     </div>
   );
-};
+}

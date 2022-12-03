@@ -1,10 +1,11 @@
-import { Slider as MuiSlider, Typography } from "@mui/material"
-import { SliderProps } from "./types"
-import { Container, LeftCell, MidCell, RightCell } from './styled';
+import { Slider as MuiSlider, Typography } from '@mui/material';
 
-export const Slider = ({ label, value, onChange, ...props }: SliderProps) => {
-  const handleChange = (event: Event, value: number | number[]) => {
-    onChange(value as number);
+import { Container, LeftCell, MidCell, RightCell } from './styled';
+import { SliderProps } from './types';
+
+export function Slider({ label, value, onChange, ...props }: SliderProps) {
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    onChange(newValue as number);
   };
 
   return (
@@ -15,9 +16,7 @@ export const Slider = ({ label, value, onChange, ...props }: SliderProps) => {
       <MidCell>
         <MuiSlider value={value} {...props} onChange={handleChange} />
       </MidCell>
-      <RightCell>
-        {value}
-      </RightCell>
+      <RightCell>{value}</RightCell>
     </Container>
-  )
+  );
 }

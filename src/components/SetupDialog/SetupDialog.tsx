@@ -1,37 +1,28 @@
-import { Fragment, useMemo, useState } from "react";
-import { Button, Typography } from "@mui/material";
-import { Slider } from "components/Slider";
-import { UploadGameDictionaryButton } from "components/UploadGameDictionaryButton";
-import { useGameContext } from "hooks/useGameContext";
-import { ISetupDialogProps } from "./types";
-import { formValuesMetaMap } from "./meta";
-import { TeamGenerator } from "utils";
-import { SetupTeams } from "components/SetupTeams";
-import { ColumnLeft, ColumnMiddle, ColumnRight, Container, Title } from "./styled";
-import { GameState, IGameDictionary, IGamePlayer, IGameSettings, IGameTeam, TGameTeams } from "types";
+import { useMemo, useState } from 'react';
+import { Button, Typography } from '@mui/material';
 
-const team1 = TeamGenerator.generateTeam();
-const team2 = TeamGenerator.generateTeam();
+import { SetupTeams } from '~/components/SetupTeams';
+import { Slider } from '~/components/Slider';
+import { UploadGameDictionaryButton } from '~/components/UploadGameDictionaryButton';
+import { useGameContext } from '~/hooks/useGameContext';
+import { GameState, IGameDictionary, IGamePlayer, IGameSettings, IGameTeam, TGameTeams } from '~/types';
+import { TeamGenerator } from '~/utils';
 
-export const SetupDialog = ({ children }: ISetupDialogProps) => {
+import { INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
+import { formValuesMetaMap } from './meta';
+import { ColumnLeft, ColumnMiddle, ColumnRight, Container, Title } from './styled';
+import { ISetupDialogProps } from './types';
+
+export function SetupDialog({ children }: ISetupDialogProps) {
   const { gameState, initGameData } = useGameContext();
-  const [gameDictionary, setGameDictionary] = useState<IGameDictionary | null>(null)
-  const [formValues, setFormValues] = useState<IGameSettings>({
-    time: 60,
-    easyRounds: 5,
-    mediumRounds: 5,
-    hardRounds: 5,
-    veryHardRounds: 5,
-  });
-  const [teams, setTeams] = useState<TGameTeams>({
-    [team1.id]: team1,
-    [team2.id]: team2,
-  });
+  const [gameDictionary, setGameDictionary] = useState<IGameDictionary | null>(null);
+  const [formValues, setFormValues] = useState<IGameSettings>(INITIAL_SETTINGS);
+  const [teams, setTeams] = useState<TGameTeams>(INITIAL_TEAMS);
 
   const submitDisabled = useMemo(() => {
     const teamsArr = Object.values(teams);
-    const playersInvalid = teamsArr.some((team) => team.players.length === 0) 
-    
+    const playersInvalid = teamsArr.some((team) => team.players.length === 0);
+
     return !gameDictionary || teamsArr.length < 2 || playersInvalid;
   }, [gameDictionary, teams]);
 
@@ -46,10 +37,10 @@ export const SetupDialog = ({ children }: ISetupDialogProps) => {
       ...teams,
       [team.id]: {
         ...team,
-        players: [...team.players, player]
-      }
-    })
-  }
+        players: [...team.players, player],
+      },
+    });
+  };
 
   const handleRemoveTeam = (id: string) => {
     const { [id]: removedTeam, ...restTeams } = teams;
@@ -66,8 +57,8 @@ export const SetupDialog = ({ children }: ISetupDialogProps) => {
       ...teams,
       [team.id]: {
         ...team,
-        players: team.players.filter((player) => player.id !== playerId)
-      }
+        players: team.players.filter((player) => player.id !== playerId),
+      },
     });
   };
 
@@ -85,13 +76,13 @@ export const SetupDialog = ({ children }: ISetupDialogProps) => {
         gameState: GameState.Playing,
         dictionary: gameDictionary,
         settings: formValues,
-        teams: teams,
+        teams,
       });
     }
   };
 
   if (gameState === GameState.Playing) {
-    return <Fragment>{children}</Fragment>;
+    return <>{children}</>;
   }
 
   const formEntries = Object.entries(formValues) as [keyof IGameSettings, number][];
@@ -104,11 +95,13 @@ export const SetupDialog = ({ children }: ISetupDialogProps) => {
         </Title>
         <UploadGameDictionaryButton onFileUpload={handleFileUpload} />
         {formEntries.map(([key, value]) => (
-          <Slider key={key} value={value} {...formValuesMetaMap[key]} onChange={(value) => handleChangeFormValue(key, value)} />
+          <Slider key={key} value={value} {...formValuesMetaMap[key]} onChange={(v) => handleChangeFormValue(key, v)} />
         ))}
       </ColumnLeft>
       <ColumnMiddle>
-        <Button color="primary" variant="contained" disabled={submitDisabled} onClick={handleCompleteSetup}>Start</Button>
+        <Button color="primary" variant="contained" disabled={submitDisabled} onClick={handleCompleteSetup}>
+          Start
+        </Button>
       </ColumnMiddle>
       <ColumnRight>
         <Title>
@@ -124,4 +117,4 @@ export const SetupDialog = ({ children }: ISetupDialogProps) => {
       </ColumnRight>
     </Container>
   );
-};
+}

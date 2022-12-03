@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Typography } from "@mui/material";
+import { Typography } from '@mui/material';
+import styled from 'styled-components';
 
 export const CardHeader = styled.div`
   display: flex;
@@ -10,12 +10,12 @@ export const CardHeader = styled.div`
 export const StyledCardTitle = styled(Typography)`
   flex: 1 1 auto;
   margin-left: 8px;
-`
+`;
 
 export const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const ContentRow = styled.div`
   display: flex;

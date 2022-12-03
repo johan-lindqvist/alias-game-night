@@ -1,4 +1,4 @@
-import { IGamePlayer, IGameTeam } from "types";
+import { IGamePlayer, IGameTeam } from '~/types';
 
 export interface ITeamProps {
   team: IGameTeam;

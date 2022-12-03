@@ -1,4 +1,4 @@
-import { IGameDictionary } from "types";
+import { IGameDictionary } from '~/types';
 
 export interface IUploadGameDictionaryButtonProps {
   onFileUpload: (data: IGameDictionary) => void;

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
 
 export const useLocalStorage = () => {
   const get = useCallback(<T>(key: string): T | null => {
@@ -7,7 +7,7 @@ export const useLocalStorage = () => {
     if (data) {
       return JSON.parse(data);
     }
-  
+
     return null;
   }, []);
 

@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-import { GameState, IGameDictionary, IGameSettings, TGameTeams } from 'types';
+
+import { GameState, IGameDictionary, IGameSettings, TGameTeams } from '~/types';
 
 interface IGameDataSetup {
   gameState: GameState.Setup;

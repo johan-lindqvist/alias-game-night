@@ -1,10 +1,11 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { GameProvider } from 'components/GameProvider';
-import { SetupDialog } from 'components/SetupDialog';
-import { GameView } from 'components/GameView';
-import { theme } from 'theme';
 
-function App() {
+import { GameProvider } from '~/components/GameProvider';
+import { GameView } from '~/components/GameView';
+import { SetupDialog } from '~/components/SetupDialog';
+import { theme } from '~/theme';
+
+export function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -16,5 +17,3 @@ function App() {
     </ThemeProvider>
   );
 }
-
-export default App;

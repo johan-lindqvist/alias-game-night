@@ -1,4 +1,4 @@
-import { object, array, string } from "yup";
+import { array, object, string } from 'yup';
 
 export const schema = object({
   easy: array().of(string()),

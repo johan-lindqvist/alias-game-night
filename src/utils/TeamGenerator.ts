@@ -1,19 +1,22 @@
-import { v4 } from "uuid";
-import { TEAM_COLORS, TEAM_NAMES } from "consts";
-import { IGameTeam } from "types";
+import { v4 } from 'uuid';
+
+import { TEAM_COLORS, TEAM_NAMES } from '~/constants';
+import { IGameTeam } from '~/types';
 
 export class TeamGenerator {
   static names: string[] = TEAM_NAMES;
+
   static takenNames: string[] = [];
 
   static colors: string[] = TEAM_COLORS;
+
   static takenColors: string[] = [];
 
   static generateTeam(): IGameTeam {
     const availableNames = this.names.filter((name) => !this.takenNames.includes(name));
     const name = availableNames[Math.floor(Math.random() * availableNames.length)];
 
-    const availableColors = this.colors.filter((name) => !this.takenColors.includes(name));
+    const availableColors = this.colors.filter((color) => !this.takenColors.includes(color));
     const color = availableColors[Math.floor(Math.random() * availableColors.length)];
 
     this.takenNames.push(name);
@@ -21,8 +24,8 @@ export class TeamGenerator {
 
     return {
       id: v4(),
-      name: name,
-      color: color,
+      name,
+      color,
       players: [],
     };
   }

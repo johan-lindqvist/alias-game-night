@@ -1,4 +1,4 @@
-import { TSetupFormValuesMetaMap } from "./types";
+import { TSetupFormValuesMetaMap } from './types';
 
 export const formValuesMetaMap: TSetupFormValuesMetaMap = {
   time: {
@@ -26,5 +26,5 @@ export const formValuesMetaMap: TSetupFormValuesMetaMap = {
     label: 'Very hard rounds',
     min: 1,
     max: 10,
-  }
+  },
 };

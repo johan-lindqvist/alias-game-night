@@ -1,4 +1,4 @@
-import { IGamePlayer, IGameTeam, TGameTeams } from "types";
+import { IGamePlayer, IGameTeam, TGameTeams } from '~/types';
 
 export interface ISetupTeamsProps {
   teams: TGameTeams;
