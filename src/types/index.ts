@@ -1,6 +1,6 @@
 export enum GameState {
-  Setup,
-  Playing,
+  Setup = 'Setup',
+  Playing = 'Playing',
 }
 
 export interface IGameDictionary {

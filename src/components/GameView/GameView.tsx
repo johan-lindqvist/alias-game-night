@@ -1,3 +1,4 @@
+import { GameBoard } from '~/components/GameBoard';
 import { useGameContext } from '~/hooks/useGameContext';
 
 export function GameView() {
@@ -9,6 +10,7 @@ export function GameView() {
       <button type="button" onClick={restartGame}>
         Restart
       </button>
+      <GameBoard />
     </div>
   );
 }

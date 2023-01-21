@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import { LOCAL_STORAGE_KEY } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
@@ -34,14 +34,11 @@ export function GameProvider({ children }: IGameProviderProps) {
     updateGameData({ gameState: GameState.Setup });
   };
 
-  const value: TGameContext = useMemo(
-    () => ({
-      ...gameData,
-      restartGame,
-      initGameData,
-    }),
-    [],
-  );
+  const value: TGameContext = {
+    ...gameData,
+    restartGame,
+    initGameData,
+  };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }
