@@ -1,25 +1,18 @@
 import { ReactNode } from 'react';
 
-import { GameState, IGameDictionary, IGameSettings, TGameTeams } from '~/types';
+import { IGameDictionary, IGameSettings, TGameTeams } from '~/types';
 
-interface IGameDataSetup {
-  gameState: GameState.Setup;
-}
-
-interface IGameDataPlaying {
-  gameState: GameState.Playing;
-  dictionary: IGameDictionary;
-  settings: IGameSettings;
+type IGameOptions = {
   teams: TGameTeams;
-}
-
-export type TGameData = IGameDataSetup | IGameDataPlaying;
-
-export type TGameContext = TGameData & {
-  restartGame: () => void;
-  initGameData: (data: TGameData) => void;
+  settings: IGameSettings;
+  dictionary: IGameDictionary;
 };
+
+export interface IGameContext extends IGameOptions {
+  quitGame: () => void;
+}
 
 export interface IGameProviderProps {
   children: ReactNode;
+  options: IGameOptions;
 }

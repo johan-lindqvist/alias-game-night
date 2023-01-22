@@ -1,39 +1,34 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Button, Typography } from '@mui/material';
 
 import { SetupTeams } from '~/components/SetupTeams';
 import { Slider } from '~/components/Slider';
 import { UploadGameDictionaryButton } from '~/components/UploadGameDictionaryButton';
-import { useGameContext } from '~/hooks/useGameContext';
-import { GameState, IGameDictionary, IGamePlayer, IGameSettings, IGameTeam, TGameTeams } from '~/types';
+import { useSetupContext } from '~/hooks/useSetupContext';
+import { IGameDictionary, IGamePlayer, IGameSettings, IGameTeam } from '~/types';
 import { TeamGenerator } from '~/utils';
 
-import { INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
 import { formValuesMetaMap } from './meta';
 import { ColumnLeft, ColumnMiddle, ColumnRight, Container, Title } from './styled';
-import { ISetupDialogProps } from './types';
 
-export function SetupDialog({ children }: ISetupDialogProps) {
-  const { gameState, initGameData } = useGameContext();
-  const [gameDictionary, setGameDictionary] = useState<IGameDictionary | null>(null);
-  const [formValues, setFormValues] = useState<IGameSettings>(INITIAL_SETTINGS);
-  const [teams, setTeams] = useState<TGameTeams>(INITIAL_TEAMS);
+export function SetupDialog() {
+  const { settings, dictionary, teams, updateSetupState, completeSetup } = useSetupContext();
 
   const submitDisabled = useMemo(() => {
     const teamsArr = Object.values(teams);
     const playersInvalid = teamsArr.some((team) => team.players.length === 0);
 
-    return !gameDictionary || teamsArr.length < 2 || playersInvalid;
-  }, [gameDictionary, teams]);
+    return !dictionary || teamsArr.length < 2 || playersInvalid;
+  }, [dictionary, teams]);
 
   const handleAddTeam = (team: IGameTeam) => {
-    setTeams({ ...teams, [team.id]: team });
+    updateSetupState('teams', { ...teams, [team.id]: team });
   };
 
   const handleAddTeamPlayer = (teamId: string, player: IGamePlayer) => {
     const team = teams[teamId];
 
-    setTeams({
+    updateSetupState('teams', {
       ...teams,
       [team.id]: {
         ...team,
@@ -47,13 +42,13 @@ export function SetupDialog({ children }: ISetupDialogProps) {
 
     TeamGenerator.releaseTeam(removedTeam);
 
-    setTeams(restTeams);
+    updateSetupState('teams', restTeams);
   };
 
   const handleRemoveTeamPlayer = (teamId: string, playerId: string) => {
     const team = teams[teamId];
 
-    setTeams({
+    updateSetupState('teams', {
       ...teams,
       [team.id]: {
         ...team,
@@ -63,29 +58,20 @@ export function SetupDialog({ children }: ISetupDialogProps) {
   };
 
   const handleFileUpload = (gd: IGameDictionary) => {
-    setGameDictionary(gd);
+    updateSetupState('dictionary', gd);
   };
 
   const handleChangeFormValue = (key: keyof IGameSettings, value: number) => {
-    setFormValues({ ...formValues, [key]: value });
+    updateSetupState('settings', { ...settings, [key]: value });
   };
 
   const handleCompleteSetup = () => {
-    if (gameDictionary) {
-      initGameData({
-        gameState: GameState.Playing,
-        dictionary: gameDictionary,
-        settings: formValues,
-        teams,
-      });
+    if (dictionary) {
+      completeSetup();
     }
   };
 
-  if (gameState === GameState.Playing) {
-    return <>{children}</>;
-  }
-
-  const formEntries = Object.entries(formValues) as [keyof IGameSettings, number][];
+  const formEntries = Object.entries(settings) as [keyof IGameSettings, number][];
 
   return (
     <Container>

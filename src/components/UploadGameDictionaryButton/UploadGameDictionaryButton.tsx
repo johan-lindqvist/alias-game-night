@@ -1,9 +1,14 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useRef } from 'react';
+
+import { useSetupContext } from '~/hooks/useSetupContext';
 
 import { schema } from './schema';
 import { IUploadGameDictionaryButtonProps } from './types';
 
 export function UploadGameDictionaryButton({ onFileUpload }: IUploadGameDictionaryButtonProps) {
+  const { dictionary } = useSetupContext();
+  const fileNameRef = useRef('');
+
   const isJsonValid = async (json: any): Promise<boolean> => {
     try {
       await schema.validate(json);
@@ -23,7 +28,7 @@ export function UploadGameDictionaryButton({ onFileUpload }: IUploadGameDictiona
       const valid = await isJsonValid(json);
 
       if (valid) {
-        onFileUpload(json);
+        onFileUpload({ fileName: fileNameRef.current, words: json });
       }
     }
   };
@@ -35,10 +40,17 @@ export function UploadGameDictionaryButton({ onFileUpload }: IUploadGameDictiona
       const file = files[0];
       const reader = new FileReader();
 
+      fileNameRef.current = file.name;
+
       reader.onload = onReaderLoad;
       reader.readAsText(file);
     }
   };
 
-  return <input type="file" accept="application/json" onChange={onFileChange} />;
+  return (
+    <div>
+      <label htmlFor="upload">{dictionary ? `Cached file: ${dictionary.fileName}` : 'No file'}</label>
+      <input type="file" name="upload" accept="application/json" onChange={onFileChange} />
+    </div>
+  );
 }

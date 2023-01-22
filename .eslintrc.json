@@ -40,6 +40,7 @@
         ]
       }
     ],
+    "no-debugger": "warn",
     "no-plusplus": "off",
     "no-await-in-loop": "off",
     "react/no-array-index-key": "off",

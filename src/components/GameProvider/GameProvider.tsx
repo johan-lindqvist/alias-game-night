@@ -1,44 +1,19 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext } from 'react';
 
-import { LOCAL_STORAGE_KEY } from '~/constants';
-import { useLocalStorage } from '~/hooks/useLocalStorage';
-import { GameState } from '~/types';
+import { useSetupContext } from '~/hooks/useSetupContext';
 
-import { IGameProviderProps, TGameContext, TGameData } from './types';
+import { IGameContext, IGameProviderProps } from './types';
 
-export const GameContext = createContext<TGameContext | null>(null);
+export const GameContext = createContext<IGameContext | null>(null);
 
-export function GameProvider({ children }: IGameProviderProps) {
-  const [gameData, setGameData] = useState<TGameData>({ gameState: GameState.Setup });
+export function GameProvider({ children, options }: IGameProviderProps) {
+  const { initializeSetup } = useSetupContext();
 
-  const { get, set } = useLocalStorage();
-
-  useEffect(() => {
-    const data = get<TGameData>(LOCAL_STORAGE_KEY);
-
-    if (data) {
-      setGameData(data);
-    }
-  }, [get]);
-
-  const updateGameData = (data: TGameData) => {
-    setGameData(data);
-    set(LOCAL_STORAGE_KEY, data);
+  const quitGame = () => {
+    initializeSetup();
   };
 
-  const initGameData = (data: TGameData) => {
-    updateGameData(data);
-  };
-
-  const restartGame = () => {
-    updateGameData({ gameState: GameState.Setup });
-  };
-
-  const value: TGameContext = {
-    ...gameData,
-    restartGame,
-    initGameData,
-  };
+  const value: IGameContext = { ...options, quitGame };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

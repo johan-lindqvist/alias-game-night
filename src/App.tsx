@@ -1,19 +1,16 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import { GameProvider } from '~/components/GameProvider';
-import { GameView } from '~/components/GameView';
-import { SetupDialog } from '~/components/SetupDialog';
+import { Content } from '~/components/Content';
+import { SetupProvider } from '~/components/SetupProvider';
 import { theme } from '~/theme';
 
 export function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <GameProvider>
-        <SetupDialog>
-          <GameView />
-        </SetupDialog>
-      </GameProvider>
+      <SetupProvider>
+        <Content />
+      </SetupProvider>
     </ThemeProvider>
   );
 }

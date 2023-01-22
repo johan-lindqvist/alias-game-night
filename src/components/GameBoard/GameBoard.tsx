@@ -2,7 +2,6 @@ import { createContext, useState } from 'react';
 
 import { GAME_BOARD } from '~/constants';
 import { useGameContext } from '~/hooks/useGameContext';
-import { GameState } from '~/types';
 
 import { Board } from './Board';
 import { Container } from './styled';
@@ -12,13 +11,8 @@ import { IGameBoardContext, TPlayerPosition, TPlayerPositions } from './types';
 export const GameBoardContext = createContext<IGameBoardContext | null>(null);
 
 export function GameBoard() {
-  const gameContext = useGameContext();
+  const { teams } = useGameContext();
 
-  if (gameContext.gameState !== GameState.Playing) {
-    throw new Error('FML');
-  }
-
-  const { teams } = gameContext;
   const teamsArr = Object.values(teams);
 
   const getInitialPlayerPositions = () => {

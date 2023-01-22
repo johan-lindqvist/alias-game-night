@@ -1,13 +1,11 @@
-export enum GameState {
-  Setup = 'Setup',
-  Playing = 'Playing',
-}
-
 export interface IGameDictionary {
-  easy: string[];
-  medium: string[];
-  hard: string[];
-  veryhard: string[];
+  fileName: string;
+  words: {
+    easy: string[];
+    medium: string[];
+    hard: string[];
+    veryhard: string[];
+  };
 }
 
 export interface IGameSettings {
