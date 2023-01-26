@@ -8,8 +8,15 @@ type IGameOptions = {
   dictionary: IGameDictionary;
 };
 
+export interface IGameState {
+  teams: Record<string, { teamId: string; activePlayerIndex: number; isActive: boolean }>;
+}
+
 export interface IGameContext extends IGameOptions {
+  activeTeamId: string;
+  activePlayerId: string;
   quitGame: () => void;
+  nextTeam: () => void;
 }
 
 export interface IGameProviderProps {

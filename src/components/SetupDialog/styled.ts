@@ -6,7 +6,7 @@ export const Container = styled.div`
     height: 100vh;
     width: 100vw;
     overflow: hidden;
-    background-color: ${theme.palette.grey[200]};
+    background-color: ${theme.palette.background.default};
   `}
 `;
 

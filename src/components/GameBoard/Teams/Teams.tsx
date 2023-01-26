@@ -1,24 +1,20 @@
 import { useGameBoard } from '~/hooks/useGameBoard';
+import { useGameContext } from '~/hooks/useGameContext';
 
-import { Button, Container, Item, ItemDot, ItemText } from './styled';
+import { Button, Container } from './styled';
 
 export function Teams() {
-  const { players, activePlayerId, isPlayerMoving, nextPlayer } = useGameBoard();
+  const { isPlayerMoving } = useGameBoard();
+  const { nextTeam } = useGameContext();
 
   const handleClick = () => {
     if (!isPlayerMoving) {
-      nextPlayer();
+      nextTeam();
     }
   };
 
   return (
     <Container>
-      {players.map(({ id, name, color }) => (
-        <Item key={id} $color={color} $active={id === activePlayerId}>
-          <ItemDot />
-          <ItemText>{name}</ItemText>
-        </Item>
-      ))}
       <Button onClick={handleClick}>Next Player</Button>
     </Container>
   );

@@ -11,7 +11,7 @@ import { IGameBoardContext, TPlayerPosition, TPlayerPositions } from './types';
 export const GameBoardContext = createContext<IGameBoardContext | null>(null);
 
 export function GameBoard() {
-  const { teams } = useGameContext();
+  const { teams, activeTeamId } = useGameContext();
 
   const teamsArr = Object.values(teams);
 
@@ -29,22 +29,8 @@ export function GameBoard() {
     }, {} as TPlayerPositions);
   };
 
-  const [activePlayerId, setActivePlayerId] = useState(teamsArr[0].id);
   const [isPlayerMoving, setIsPlayerMoving] = useState(false);
   const [playerPositions, setPlayerPositions] = useState<TPlayerPositions>(getInitialPlayerPositions());
-
-  const setNextPlayerActive = () => {
-    const currentPlayer = teamsArr.find(({ id }) => id === activePlayerId);
-
-    if (!currentPlayer) {
-      return;
-    }
-
-    const index = teamsArr.indexOf(currentPlayer);
-    const nextIndex = index === teamsArr.length - 1 ? 0 : index + 1;
-
-    setActivePlayerId(teamsArr[nextIndex].id);
-  };
 
   const getPlayerPosition = (id: string): TPlayerPosition => {
     return playerPositions[id];
@@ -78,7 +64,7 @@ export function GameBoard() {
   };
 
   const movePlayerOneStep = async (step: number) => {
-    const { place: movingPlace, step: startingStep } = playerPositions[activePlayerId];
+    const { place: movingPlace, step: startingStep } = playerPositions[activeTeamId];
     const nextPosition = getPositionFromStep(step);
 
     const getOtherPlayerPlace = (pos: TPlayerPosition) => {
@@ -107,7 +93,7 @@ export function GameBoard() {
 
     setPlayerPositions((prev) => {
       const otherPlayerPositions = Object.entries(prev)
-        .filter(([id]) => id !== activePlayerId)
+        .filter(([id]) => id !== activeTeamId)
         .sort((a, b) => a[1].place - b[1].place)
         .reduce((acc, [id, pos]) => {
           const place = getOtherPlayerPlace(pos);
@@ -121,7 +107,7 @@ export function GameBoard() {
       return {
         ...prev,
         ...otherPlayerPositions,
-        [activePlayerId]: nextPosition,
+        [activeTeamId]: nextPosition,
       };
     });
 
@@ -129,7 +115,7 @@ export function GameBoard() {
   };
 
   const movePlayerToStep = async (finalStep: number) => {
-    const { step } = playerPositions[activePlayerId];
+    const { step } = playerPositions[activeTeamId];
     const steps = finalStep - step;
 
     if (steps === 0) {
@@ -162,11 +148,9 @@ export function GameBoard() {
   const value: IGameBoardContext = {
     board: GAME_BOARD,
     players: teamsArr,
-    activePlayerId,
     getPlayerPosition,
     isPlayerMoving,
     movePlayer,
-    nextPlayer: setNextPlayerActive,
   };
 
   return (

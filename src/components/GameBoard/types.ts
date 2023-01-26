@@ -21,9 +21,7 @@ export type TPlayerPositions = Record<string, TPlayerPosition>;
 export interface IGameBoardContext {
   board: TBoard;
   players: TPlayer[];
-  activePlayerId: string;
   isPlayerMoving: boolean;
   getPlayerPosition: (id: string) => TPlayerPosition;
   movePlayer: (step: number) => void;
-  nextPlayer: () => void;
 }
