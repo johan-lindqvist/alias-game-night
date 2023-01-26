@@ -1,7 +1,8 @@
 import { Fragment, useState } from 'react';
 import { Settings } from '@mui/icons-material';
-import { Drawer, IconButton, List, ListItem, ListItemText } from '@mui/material';
+import { Button, Drawer, IconButton, List, ListItem, ListItemText } from '@mui/material';
 
+import { useGameContext } from '~/hooks/useGameContext';
 import { useSetupContext } from '~/hooks/useSetupContext';
 
 import { DrawerButton } from './styled';
@@ -10,6 +11,7 @@ export function SettingsDrawer() {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const { settings } = useSetupContext();
+  const { quitGame } = useGameContext();
 
   const toggleDrawer = () => setShowDrawer(!showDrawer);
 
@@ -22,6 +24,11 @@ export function SettingsDrawer() {
               <ListItemText primary={key} secondary={value} />
             </ListItem>
           ))}
+          <ListItem>
+            <Button fullWidth variant="contained" onClick={quitGame}>
+              Quit game
+            </Button>
+          </ListItem>
         </List>
       </Drawer>
       <DrawerButton>
