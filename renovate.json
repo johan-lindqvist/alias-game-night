@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>whitesource/merge-confidence:beta",
+    ":semanticCommits",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prNotPending",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimit10",
+    ":updateNotScheduled",
+    ":maintainLockFilesDisabled",
+    ":autodetectPinVersions",
+    "group:monorepos",
+    "group:recommended"
+  ],
+  "packageRules": [
+    {
+      "automerge": true,
+      "platformAutomerge": true,
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    }
+  ],
+  "stabilityDays": 7,
+  "rebaseWhen": "behind-base-branch"
+}
