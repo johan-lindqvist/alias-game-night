@@ -2,6 +2,7 @@
   "name": "alias-game-night",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "start": "craco start",
     "build": "craco build",
