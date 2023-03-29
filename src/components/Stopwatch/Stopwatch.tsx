@@ -10,6 +10,7 @@ export function Stopwatch() {
   };
 
   const onExpire = () => {
+    // eslint-disable-next-line no-alert
     alert('expired');
   };
 
