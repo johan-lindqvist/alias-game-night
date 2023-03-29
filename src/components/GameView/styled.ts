@@ -1,13 +1,4 @@
-import styled, { css } from 'styled-components';
-
-const GridStyle = css`
-  display: grid;
-
-  grid-template-rows: 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
-
-  gap: 0px;
-`;
+import styled from 'styled-components';
 
 export const GameContainer = styled.div`
   ${({ theme }) => `
@@ -17,30 +8,13 @@ export const GameContainer = styled.div`
     overflow: hidden;
     background-color: ${theme.palette.background.default};
 
-    ${GridStyle}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   `}
 `;
 
-export const GameCellLeft = styled.div`
-  grid-row-start: 1;
-  grid-column-start: 1;
-
-  grid-row-end: 2;
-  grid-column-end: 2;
-`;
-
-export const GameCellRight = styled.div`
-  grid-row-start: 1;
-  grid-column-start: 2;
-
-  grid-row-end: 2;
-  grid-column-end: 3;
-`;
-
-export const GameCellBottom = styled.div`
-  grid-row-start: 2;
-  grid-column-start: 1;
-
-  grid-row-end: 3;
-  grid-column-end: 3;
+export const Cell = styled.div`
+  flex: 1;
 `;

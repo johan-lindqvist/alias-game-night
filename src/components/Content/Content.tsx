@@ -1,9 +1,9 @@
+import { GameBoardProvider } from '~/components/GameBoardProvider';
 import { GameProvider } from '~/components/GameProvider';
+import { GameView } from '~/components/GameView';
+import { SetupDialog } from '~/components/SetupDialog';
+import { ESetupState } from '~/components/SetupProvider/types';
 import { useSetupContext } from '~/hooks/useSetupContext';
-
-import { GameView } from '../GameView';
-import { SetupDialog } from '../SetupDialog';
-import { ESetupState } from '../SetupProvider/types';
 
 export function Content() {
   const { state, teams, settings, dictionary } = useSetupContext();
@@ -18,7 +18,9 @@ export function Content() {
 
   return (
     <GameProvider options={{ teams, settings, dictionary }}>
-      <GameView />
+      <GameBoardProvider>
+        <GameView />
+      </GameBoardProvider>
     </GameProvider>
   );
 }

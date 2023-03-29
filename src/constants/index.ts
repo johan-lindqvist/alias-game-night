@@ -1,4 +1,4 @@
-import { TBoard } from '~/components/GameBoard/types';
+import { TBoard } from '~/components/GameBoardProvider/types';
 
 export const LOCAL_STORAGE_KEY = 'StorageAlias';
 

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { TPlayerPosition } from '~/components/GameBoard/types';
+import { TPlayerPosition } from '~/components/GameBoardProvider/types';
 
 const MARGIN = 5;
 const SIZE = 40;

@@ -4,21 +4,21 @@ import { Stopwatch } from '~/components/Stopwatch';
 import { Teams } from '~/components/Teams';
 import { WordActions } from '~/components/WordActions';
 
-import { GameCellBottom, GameCellLeft, GameCellRight, GameContainer } from './styled';
+import { Cell, GameContainer } from './styled';
 
 export function GameView() {
   return (
     <GameContainer>
-      <GameCellLeft>
-        <GameBoard />
-      </GameCellLeft>
-      <GameCellRight>
+      <Cell>
         <Stopwatch />
         <WordActions />
-      </GameCellRight>
-      <GameCellBottom>
+      </Cell>
+      <Cell>
+        <GameBoard />
+      </Cell>
+      <Cell>
         <Teams />
-      </GameCellBottom>
+      </Cell>
       <SettingsDrawer />
     </GameContainer>
   );

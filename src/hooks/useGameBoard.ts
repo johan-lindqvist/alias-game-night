@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { GameBoardContext } from '~/components/GameBoard';
+import { GameBoardContext } from '~/components/GameBoardProvider';
 
 export function useGameBoard() {
   const context = useContext(GameBoardContext);
