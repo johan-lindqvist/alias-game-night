@@ -4,7 +4,7 @@ import { BoardRow } from './BoardRow';
 import { PlayerPositions } from './PlayerPositions';
 import { BoardContainer } from './styled';
 
-export function Board() {
+export function GameBoard() {
   const { board } = useGameBoard();
 
   return (

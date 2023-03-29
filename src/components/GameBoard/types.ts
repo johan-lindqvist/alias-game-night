@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type TBoardRow = [number, number, number, number, number, number, number, number];
 
 export type TBoard = TBoardRow[];
@@ -24,4 +26,8 @@ export interface IGameBoardContext {
   isPlayerMoving: boolean;
   getPlayerPosition: (id: string) => TPlayerPosition;
   movePlayer: (step: number) => void;
+}
+
+export interface IGameBoardProviderProps {
+  children: ReactNode;
 }

@@ -1,1 +1,2 @@
-export * from './GameBoard';
+export { Board as GameBoard } from './Board';
+export * from './GameBoardProvider';

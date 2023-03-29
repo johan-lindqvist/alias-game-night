@@ -1,17 +1,14 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import { GAME_BOARD } from '~/constants';
 import { useGameContext } from '~/hooks/useGameContext';
 
-import { Board } from './Board';
-import { Container } from './styled';
-import { Teams } from './Teams';
-import { IGameBoardContext, TPlayerPosition, TPlayerPositions } from './types';
+import { IGameBoardContext, IGameBoardProviderProps, TPlayerPosition, TPlayerPositions } from './types';
 
 export const GameBoardContext = createContext<IGameBoardContext | null>(null);
 
-export function GameBoard() {
-  const { teams, activeTeamId } = useGameContext();
+export function GameBoardProvider({ children }: IGameBoardProviderProps) {
+  const { teams, activeTeamId, activeTeam, setTeamScore } = useGameContext();
 
   const teamsArr = Object.values(teams);
 
@@ -140,10 +137,18 @@ export function GameBoard() {
 
     setIsPlayerMoving(true);
 
+    setTeamScore(activeTeamId, step);
     await movePlayerToStep(step);
 
     setIsPlayerMoving(false);
   };
+
+  useEffect(() => {
+    if (!isPlayerMoving && activeTeam.score !== playerPositions[activeTeam.teamId].step) {
+      movePlayerToStep(activeTeam.score);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTeam]);
 
   const value: IGameBoardContext = {
     board: GAME_BOARD,
@@ -153,12 +158,5 @@ export function GameBoard() {
     movePlayer,
   };
 
-  return (
-    <GameBoardContext.Provider value={value}>
-      <Container>
-        <Teams />
-        <Board />
-      </Container>
-    </GameBoardContext.Provider>
-  );
+  return <GameBoardContext.Provider value={value}>{children}</GameBoardContext.Provider>;
 }

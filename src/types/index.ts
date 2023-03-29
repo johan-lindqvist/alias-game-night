@@ -1,10 +1,17 @@
+export enum EDictionaryTypes {
+  Easy = 'easy',
+  Medium = 'medium',
+  Hard = 'hard',
+  Extreme = 'extreme',
+}
+
 export interface IGameDictionary {
   fileName: string;
   words: {
-    easy: string[];
-    medium: string[];
-    hard: string[];
-    veryhard: string[];
+    [EDictionaryTypes.Easy]: string[];
+    [EDictionaryTypes.Medium]: string[];
+    [EDictionaryTypes.Hard]: string[];
+    [EDictionaryTypes.Extreme]: string[];
   };
 }
 
