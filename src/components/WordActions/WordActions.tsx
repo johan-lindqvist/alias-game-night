@@ -4,6 +4,7 @@ export function WordActions() {
   const { activeWord, nextWord, correctGuess } = useGameContext();
 
   const showWord = () => {
+    // eslint-disable-next-line no-alert
     window.alert(activeWord);
   };
 
