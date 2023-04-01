@@ -1,161 +1,51 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { GAME_BOARD } from '~/constants';
 import { useGameContext } from '~/hooks/useGameContext';
 
-import { IGameBoardContext, IGameBoardProviderProps, TPlayerPosition, TPlayerPositions } from './types';
+import { IGameBoardContext, IGameBoardProviderProps, TTeamPositions } from './types';
 
 export const GameBoardContext = createContext<IGameBoardContext | null>(null);
 
 export function GameBoardProvider({ children }: IGameBoardProviderProps) {
-  const { teams, activeTeamId, activeTeam, setTeamScore } = useGameContext();
+  const { settings, teams, activeTeamId, activeTeam, setTeamScore } = useGameContext();
 
-  const teamsArr = Object.values(teams);
-
-  const getInitialPlayerPositions = () => {
-    return teamsArr.reduce((acc, player, index) => {
-      acc[player.id] = {
-        step: 1,
-        row: 0,
-        cell: 0,
-        place: index + 1,
-        siblings: teamsArr.length - 1,
-      };
+  const getInitialTeamPositions = (): TTeamPositions => {
+    return Object.values(teams).reduce<TTeamPositions>((acc, team) => {
+      acc[team.id] = 0;
 
       return acc;
-    }, {} as TPlayerPositions);
+    }, {});
   };
 
-  const [isPlayerMoving, setIsPlayerMoving] = useState(false);
-  const [playerPositions, setPlayerPositions] = useState<TPlayerPositions>(getInitialPlayerPositions());
+  const [teamPositions, setTeamPositions] = useState<TTeamPositions>(getInitialTeamPositions);
 
-  const getPlayerPosition = (id: string): TPlayerPosition => {
-    return playerPositions[id];
-  };
+  const rowCells = useMemo(() => {
+    const { easyRounds, mediumRounds, hardRounds, extremeRounds } = settings;
 
-  const getPlayersOnStep = (step: number) => {
-    return Object.entries(playerPositions).filter((entry) => entry[1].step === step).length;
-  };
+    return easyRounds + mediumRounds + hardRounds + extremeRounds;
+  }, [settings]);
 
-  const getPositionFromStep = (step: number): TPlayerPosition => {
-    const row = GAME_BOARD.find((r) => r.includes(step));
-    const cell = row?.indexOf(step);
-
-    const position = {
-      row: row ? GAME_BOARD.indexOf(row) : 1,
-      cell: cell !== undefined ? cell : 1,
-    };
-
-    const siblings = getPlayersOnStep(step);
-
-    return {
-      ...position,
-      step,
-      place: siblings + 1,
-      siblings,
-    };
-  };
-
-  const delay = async (ms: number): Promise<void> => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
-
-  const movePlayerOneStep = async (step: number) => {
-    const { place: movingPlace, step: startingStep } = playerPositions[activeTeamId];
-    const nextPosition = getPositionFromStep(step);
-
-    const getOtherPlayerPlace = (pos: TPlayerPosition) => {
-      if (pos.step === step) {
-        return pos.place;
-      }
-
-      if (pos.step === startingStep && step - startingStep === 1 && movingPlace < pos.place) {
-        return pos.place - 1;
-      }
-
-      return pos.place;
-    };
-
-    const getOtherPlayerSiblings = (pos: TPlayerPosition) => {
-      if (pos.step === step) {
-        return pos.siblings + 1;
-      }
-
-      if (pos.step === startingStep) {
-        return getPlayersOnStep(pos.step) - 2;
-      }
-
-      return getPlayersOnStep(pos.step) - 1;
-    };
-
-    setPlayerPositions((prev) => {
-      const otherPlayerPositions = Object.entries(prev)
-        .filter(([id]) => id !== activeTeamId)
-        .sort((a, b) => a[1].place - b[1].place)
-        .reduce((acc, [id, pos]) => {
-          const place = getOtherPlayerPlace(pos);
-          const siblings = getOtherPlayerSiblings(pos);
-
-          acc[id] = { ...pos, place, siblings };
-
-          return acc;
-        }, {} as TPlayerPositions);
-
-      return {
-        ...prev,
-        ...otherPlayerPositions,
-        [activeTeamId]: nextPosition,
-      };
-    });
-
-    await delay(250);
-  };
-
-  const movePlayerToStep = async (finalStep: number) => {
-    const { step } = playerPositions[activeTeamId];
-    const steps = finalStep - step;
-
-    if (steps === 0) {
-      return;
-    }
-
-    if (steps > 0) {
-      for (let i = 1; i <= steps; i++) {
-        await movePlayerOneStep(step + i);
-      }
-    } else {
-      for (let i = 1; i <= -steps; i++) {
-        await movePlayerOneStep(step - i);
-      }
-    }
-  };
-
-  const movePlayer = async (step: number) => {
-    if (isPlayerMoving) {
-      return;
-    }
-
-    setIsPlayerMoving(true);
-
-    setTeamScore(activeTeamId, step);
-    await movePlayerToStep(step);
-
-    setIsPlayerMoving(false);
-  };
+  const moveTeamToPosition = useCallback(
+    (position: number) => {
+      setTeamScore(activeTeamId, position);
+      setTeamPositions((prevTeamPositions) => ({
+        ...prevTeamPositions,
+        [activeTeamId]: position,
+      }));
+    },
+    [activeTeamId, setTeamScore],
+  );
 
   useEffect(() => {
-    if (!isPlayerMoving && activeTeam.score !== playerPositions[activeTeam.teamId].step) {
-      movePlayerToStep(activeTeam.score);
+    if (activeTeam.score !== teamPositions[activeTeamId]) {
+      moveTeamToPosition(activeTeam.score);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTeam]);
+  }, [activeTeam, activeTeamId, moveTeamToPosition, teamPositions]);
 
   const value: IGameBoardContext = {
-    board: GAME_BOARD,
-    players: teamsArr,
-    getPlayerPosition,
-    isPlayerMoving,
-    movePlayer,
+    rowCells,
+    teamPositions,
+    moveTeamToPosition,
   };
 
   return <GameBoardContext.Provider value={value}>{children}</GameBoardContext.Provider>;

@@ -9,22 +9,22 @@ export const formValuesMetaMap: TSetupFormValuesMetaMap = {
   },
   easyRounds: {
     label: 'Easy rounds',
-    min: 1,
+    min: 0,
     max: 10,
   },
   mediumRounds: {
     label: 'Medium rounds',
-    min: 1,
+    min: 0,
     max: 10,
   },
   hardRounds: {
     label: 'Hard rounds',
-    min: 1,
+    min: 0,
     max: 10,
   },
-  veryHardRounds: {
-    label: 'Very hard rounds',
-    min: 1,
+  extremeRounds: {
+    label: 'Extreme rounds',
+    min: 0,
     max: 10,
   },
 };

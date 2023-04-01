@@ -1,17 +1,19 @@
 import { useGameBoard } from '~/hooks/useGameBoard';
+import { useGameContext } from '~/hooks/useGameContext';
 
-import { BoardRow } from './BoardRow';
-import { PlayerPositions } from './PlayerPositions';
+import { DifficultyMarkers } from './DifficultyMarkers';
 import { BoardContainer } from './styled';
+import { TeamRow } from './TeamRow';
 
 export function GameBoard() {
-  const { board } = useGameBoard();
+  const { teamPositions } = useGameBoard();
+  const { teams } = useGameContext();
 
   return (
     <BoardContainer>
-      <PlayerPositions />
-      {board.map((row, index) => (
-        <BoardRow key={index} row={row} />
+      <DifficultyMarkers />
+      {Object.values(teams).map((team) => (
+        <TeamRow key={team.id} team={team} position={teamPositions[team.id]} />
       ))}
     </BoardContainer>
   );

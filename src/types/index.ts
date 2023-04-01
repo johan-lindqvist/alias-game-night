@@ -20,7 +20,7 @@ export interface IGameSettings {
   easyRounds: number;
   mediumRounds: number;
   hardRounds: number;
-  veryHardRounds: number;
+  extremeRounds: number;
 }
 
 export interface IGamePlayer {

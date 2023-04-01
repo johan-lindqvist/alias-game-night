@@ -11,5 +11,5 @@ export const INITIAL_SETTINGS: IGameSettings = {
   easyRounds: 5,
   mediumRounds: 5,
   hardRounds: 5,
-  veryHardRounds: 5,
+  extremeRounds: 5,
 };

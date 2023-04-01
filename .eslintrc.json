@@ -40,6 +40,8 @@
         ]
       }
     ],
+    "no-unused-vars": 1,
+    "@typescript-eslint/no-unused-vars": "off",
     "no-debugger": "warn",
     "no-plusplus": "off",
     "no-await-in-loop": "off",
