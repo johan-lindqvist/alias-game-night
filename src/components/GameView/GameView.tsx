@@ -1,17 +1,23 @@
+import { ActiveWord } from '~/components/ActiveWord';
 import { GameBoard } from '~/components/GameBoard';
 import { SettingsDrawer } from '~/components/SettingsDrawer';
 import { Stopwatch } from '~/components/Stopwatch';
+import { TeamActions } from '~/components/TeamActions';
 import { Teams } from '~/components/Teams';
-import { WordActions } from '~/components/WordActions';
 
-import { Cell, GameContainer } from './styled';
+import { Actions, Cell, Divider, GameContainer } from './styled';
 
 export function GameView() {
   return (
     <GameContainer>
       <Cell>
-        <Stopwatch />
-        <WordActions />
+        <Actions>
+          <Stopwatch />
+          <Divider />
+          <ActiveWord />
+          <Divider />
+          <TeamActions />
+        </Actions>
       </Cell>
       <Cell>
         <GameBoard />

@@ -1,10 +1,22 @@
+import { useEffect, useState } from 'react';
 import { useTimer } from 'react-timer-hook';
+import { Pause, PlayArrow, Replay } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
+
+import { useGameContext } from '~/hooks/useGameContext';
+
+import { StopwatchContainer, TimerText } from './styled';
 
 export function Stopwatch() {
+  const [isStarted, setIsStarted] = useState(false);
+
+  const { settings, nextWord, activeTeam } = useGameContext();
+  const { time } = settings;
+
   const getExpiryTimestamp = () => {
     const date = new Date();
 
-    date.setSeconds(date.getSeconds() + 60);
+    date.setSeconds(date.getSeconds() + time);
 
     return date;
   };
@@ -14,33 +26,60 @@ export function Stopwatch() {
     alert('expired');
   };
 
-  const { seconds, minutes, start, pause, restart } = useTimer({
+  const { isRunning, seconds, minutes, start, pause, resume, restart } = useTimer({
     expiryTimestamp: getExpiryTimestamp(),
     autoStart: false,
     onExpire,
   });
 
+  const handlePlayButtonClick = () => {
+    if (isRunning) {
+      pause();
+
+      return;
+    }
+
+    if (isStarted) {
+      resume();
+    } else {
+      setIsStarted(true);
+      nextWord();
+      start();
+    }
+  };
+
   const handleRestart = () => {
     const expiryTimestamp = getExpiryTimestamp();
 
     restart(expiryTimestamp, false);
+
+    setIsStarted(false);
   };
 
+  useEffect(() => {
+    handleRestart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTeam]);
+
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+  const formattedTime = `${formattedMinutes} : ${formattedSeconds}`;
+
   return (
-    <div>
-      <button type="button" onClick={start}>
-        Start
-      </button>
-      <button type="button" onClick={pause}>
-        Pause
-      </button>
-      <button type="button" onClick={handleRestart}>
-        Reset
-      </button>
-      <div>
-        <span>minutes: {minutes} </span>
-        <span>seconds: {seconds} </span>
-      </div>
-    </div>
+    <StopwatchContainer>
+      <TimerText>{formattedTime}</TimerText>
+      {isRunning ? (
+        <IconButton onClick={pause}>
+          <Pause />
+        </IconButton>
+      ) : (
+        <IconButton onClick={handlePlayButtonClick}>
+          <PlayArrow />
+        </IconButton>
+      )}
+      <IconButton onClick={handleRestart}>
+        <Replay />
+      </IconButton>
+    </StopwatchContainer>
   );
 }
