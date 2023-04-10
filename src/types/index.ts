@@ -5,14 +5,16 @@ export enum EDictionaryTypes {
   Extreme = 'extreme',
 }
 
+export interface IWords {
+  [EDictionaryTypes.Easy]: string[];
+  [EDictionaryTypes.Medium]: string[];
+  [EDictionaryTypes.Hard]: string[];
+  [EDictionaryTypes.Extreme]: string[];
+}
+
 export interface IGameDictionary {
   fileName: string;
-  words: {
-    [EDictionaryTypes.Easy]: string[];
-    [EDictionaryTypes.Medium]: string[];
-    [EDictionaryTypes.Hard]: string[];
-    [EDictionaryTypes.Extreme]: string[];
-  };
+  words: IWords;
 }
 
 export interface IGameSettings {

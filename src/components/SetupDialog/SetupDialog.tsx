@@ -12,7 +12,7 @@ import { formValuesMetaMap } from './meta';
 import { ColumnLeft, ColumnMiddle, ColumnRight, Container, Title } from './styled';
 
 export function SetupDialog() {
-  const { settings, dictionary, teams, updateSetupState, completeSetup } = useSetupContext();
+  const { settings, dictionary, teams, updateSetupState, completeSetup, resetPlayedWords } = useSetupContext();
 
   const submitDisabled = useMemo(() => {
     const teamsArr = Object.values(teams);
@@ -85,6 +85,9 @@ export function SetupDialog() {
         ))}
       </ColumnLeft>
       <ColumnMiddle>
+        <Button color="primary" variant="text" onClick={resetPlayedWords}>
+          Reset played words
+        </Button>
         <Button color="primary" variant="contained" disabled={submitDisabled} onClick={handleCompleteSetup}>
           Start
         </Button>

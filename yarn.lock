@@ -2154,10 +2154,10 @@
   "resolved" "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   "version" "0.0.29"
 
-"@types/lodash@^4.14.175":
-  "integrity" "sha512-5iJ3FBJBvQHQ8sFhEhJfjUP+G+LalhavTkYyrAYqz5MEJG+erSv0k9KJLb6q7++17Lafk1scaTIFXcMJlwK8Mw=="
-  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.190.tgz"
-  "version" "4.14.190"
+"@types/lodash@^4.14.175", "@types/lodash@^4.14.192":
+  "integrity" "sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.192.tgz"
+  "version" "4.14.192"
 
 "@types/mime@*":
   "integrity" "sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA=="

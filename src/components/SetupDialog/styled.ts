@@ -21,6 +21,8 @@ export const ColumnMiddle = styled.div`
   flex: 1 1 auto;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
   justify-content: center;
 `;

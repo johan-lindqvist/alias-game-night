@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 
 import { useSetupContext } from '~/hooks/useSetupContext';
 import { EDictionaryTypes } from '~/types';
@@ -38,7 +38,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   const [teamsState, setTeamsState] = useState<TTeamsState>(getInitialTeamsState());
   const [wordsState, setWordsState] = useState<TWordsState>(getInitialWordsState());
 
-  const { initializeSetup } = useSetupContext();
+  const { initializeSetup, addPlayedWord } = useSetupContext();
 
   const quitGame = () => initializeSetup();
 
@@ -78,14 +78,16 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
     const words = remaining[type];
     const index = Math.floor(Math.random() * words.length);
-    const active = words[index];
+    const nextActive = words[index];
 
-    const newRemaining = words.filter((word) => word !== active);
-    const newPlayed = [...played[type], active];
+    addPlayedWord(type, nextActive);
+
+    const newRemaining = words.filter((word) => word !== nextActive);
+    const newPlayed = [...played[type], nextActive];
 
     setWordsState((prevWordsState) => ({
       ...prevWordsState,
-      active,
+      active: nextActive,
       played: {
         ...prevWordsState.played,
         [type]: newPlayed,
@@ -120,11 +122,6 @@ export function GameProvider({ children, options }: IGameProviderProps) {
       },
     }));
   };
-
-  useEffect(() => {
-    nextWord();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const value: IGameContext = {
     ...options,

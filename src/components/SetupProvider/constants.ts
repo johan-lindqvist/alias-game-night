@@ -1,4 +1,4 @@
-import { IGameSettings, TGameTeams } from '~/types';
+import { IGameSettings, IWords, TGameTeams } from '~/types';
 import { TeamGenerator } from '~/utils';
 
 const team1 = TeamGenerator.generateTeam();
@@ -12,4 +12,11 @@ export const INITIAL_SETTINGS: IGameSettings = {
   mediumRounds: 5,
   hardRounds: 5,
   extremeRounds: 5,
+};
+
+export const INITIAL_PLAYED_WORDS: IWords = {
+  easy: [],
+  medium: [],
+  hard: [],
+  extreme: [],
 };

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { IGameDictionary, IGameSettings, TGameTeams } from '~/types';
+import { EDictionaryTypes, IGameDictionary, IGameSettings, IWords, TGameTeams } from '~/types';
 
 export enum ESetupState {
   Setup = 'Setup',
@@ -12,6 +12,7 @@ export interface ISetupState {
   teams: TGameTeams;
   settings: IGameSettings;
   dictionary: IGameDictionary | null;
+  playedWords: IWords;
 }
 
 export type TUpdateKey = keyof Omit<ISetupState, 'state'>;
@@ -21,6 +22,8 @@ export interface ISetupContext extends ISetupState {
   updateSetupState: (key: TUpdateKey, value: TUpdateValue) => void;
   completeSetup: () => void;
   initializeSetup: () => void;
+  addPlayedWord: (type: EDictionaryTypes, word: string) => void;
+  resetPlayedWords: () => void;
 }
 
 export interface ISetupProviderProps {

@@ -10,7 +10,7 @@ import { StopwatchContainer, TimerText } from './styled';
 export function Stopwatch() {
   const [isStarted, setIsStarted] = useState(false);
 
-  const { settings, nextWord, activeTeam } = useGameContext();
+  const { settings, nextWord, activeTeamId } = useGameContext();
   const { time } = settings;
 
   const getExpiryTimestamp = () => {
@@ -59,7 +59,7 @@ export function Stopwatch() {
   useEffect(() => {
     handleRestart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTeam]);
+  }, [activeTeamId]);
 
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;

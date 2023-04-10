@@ -1,9 +1,11 @@
 import { createContext, useEffect, useState } from 'react';
+import _ from 'lodash';
 
 import { LOCAL_STORAGE_KEY } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
+import { EDictionaryTypes } from '~/types';
 
-import { INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
+import { INITIAL_PLAYED_WORDS, INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
 import { ESetupState, ISetupContext, ISetupProviderProps, ISetupState, TUpdateKey, TUpdateValue } from './types';
 
 export const SetupContext = createContext<ISetupContext | null>(null);
@@ -14,6 +16,7 @@ export function SetupProvider({ children }: ISetupProviderProps) {
     teams: INITIAL_TEAMS,
     settings: INITIAL_SETTINGS,
     dictionary: null,
+    playedWords: INITIAL_PLAYED_WORDS,
   });
 
   const { get, set } = useLocalStorage();
@@ -47,7 +50,26 @@ export function SetupProvider({ children }: ISetupProviderProps) {
     setSetupState(updatedState);
   };
 
-  const value: ISetupContext = { ...setupState, updateSetupState, completeSetup, initializeSetup };
+  const resetPlayedWords = () => {
+    updateSetupState('playedWords', INITIAL_PLAYED_WORDS);
+  };
+
+  const addPlayedWord = (type: EDictionaryTypes, word: string) => {
+    const newPlayedWords = _.cloneDeep(setupState.playedWords);
+
+    newPlayedWords[type].push(word);
+
+    updateSetupState('playedWords', newPlayedWords);
+  };
+
+  const value: ISetupContext = {
+    ...setupState,
+    updateSetupState,
+    completeSetup,
+    initializeSetup,
+    addPlayedWord,
+    resetPlayedWords,
+  };
 
   return <SetupContext.Provider value={value}>{children}</SetupContext.Provider>;
 }
