@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 import { useSetupContext } from '~/hooks/useSetupContext';
 import { EDictionaryTypes } from '~/types';
@@ -120,6 +120,11 @@ export function GameProvider({ children, options }: IGameProviderProps) {
       },
     }));
   };
+
+  useEffect(() => {
+    nextWord();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const value: IGameContext = {
     ...options,
