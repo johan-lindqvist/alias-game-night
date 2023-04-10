@@ -13,7 +13,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
       const isActive = index === 0;
       const activePlayerIndex = isActive ? 0 : -1;
       const teamId = team.id;
-      const score = 1;
+      const score = 0;
 
       acc[teamId] = { score, teamId, isActive, activePlayerIndex };
 

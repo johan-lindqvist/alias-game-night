@@ -1,7 +1,7 @@
 import { useGameContext } from '~/hooks/useGameContext';
 
 export function WordActions() {
-  const { activeWord, nextWord, correctGuess } = useGameContext();
+  const { activeWord, nextWord, correctGuess, nextTeam } = useGameContext();
 
   const showWord = () => {
     // eslint-disable-next-line no-alert
@@ -18,6 +18,9 @@ export function WordActions() {
       </button>
       <button type="button" onClick={showWord}>
         Show
+      </button>
+      <button type="button" onClick={nextTeam}>
+        Next Team
       </button>
     </div>
   );
