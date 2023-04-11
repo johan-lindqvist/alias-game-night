@@ -27,6 +27,6 @@
       ]
     }
   ],
-  "stabilityDays": 7,
+  "stabilityDays": 30,
   "rebaseWhen": "behind-base-branch"
 }
