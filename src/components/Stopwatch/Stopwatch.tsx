@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTimer } from 'react-timer-hook';
 import { Pause, PlayArrow, Replay } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
+import { Keybinds } from '~/constants';
 import { useGameContext } from '~/hooks/useGameContext';
+
+import { KeybindTooltip } from '../KeybindTooltip';
 
 import { StopwatchContainer, TimerText } from './styled';
 
@@ -32,7 +35,7 @@ export function Stopwatch() {
     onExpire,
   });
 
-  const handlePlayButtonClick = () => {
+  const handlePlayButtonClick = useCallback(() => {
     if (isRunning) {
       pause();
 
@@ -46,7 +49,7 @@ export function Stopwatch() {
       nextWord();
       start();
     }
-  };
+  }, [isRunning, isStarted, nextWord, pause, resume, start]);
 
   const handleRestart = () => {
     const expiryTimestamp = getExpiryTimestamp();
@@ -61,6 +64,18 @@ export function Stopwatch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTeamId]);
 
+  useEffect(() => {
+    const onKeyPress = (event: KeyboardEvent) => {
+      if (event.code === Keybinds.PlayPause) {
+        handlePlayButtonClick();
+      }
+    };
+
+    document.addEventListener('keypress', onKeyPress);
+
+    return () => document.removeEventListener('keypress', onKeyPress);
+  }, [handlePlayButtonClick]);
+
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
   const formattedTime = `${formattedMinutes} : ${formattedSeconds}`;
@@ -68,15 +83,17 @@ export function Stopwatch() {
   return (
     <StopwatchContainer>
       <TimerText>{formattedTime}</TimerText>
-      {isRunning ? (
-        <IconButton onClick={pause}>
-          <Pause />
-        </IconButton>
-      ) : (
-        <IconButton onClick={handlePlayButtonClick}>
-          <PlayArrow />
-        </IconButton>
-      )}
+      <KeybindTooltip tooltip="Space">
+        {isRunning ? (
+          <IconButton onClick={pause}>
+            <Pause />
+          </IconButton>
+        ) : (
+          <IconButton onClick={handlePlayButtonClick}>
+            <PlayArrow />
+          </IconButton>
+        )}
+      </KeybindTooltip>
       <IconButton onClick={handleRestart}>
         <Replay />
       </IconButton>
