@@ -15,11 +15,14 @@ export const StyledButton = styled.button`
   border: none;
   background-color: transparent;
 
-  cursor: pointer;
-
   transition: all 200ms ease;
 
-  &:hover {
+  &:hover:enabled {
+    cursor: pointer;
     color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.5;
   }
 `;
