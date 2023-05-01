@@ -30,14 +30,29 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
   const getInitialWordsState = (): TWordsState => {
     const { playedWords } = get<ISetupState>(LOCAL_STORAGE_KEY) || {};
+    const { dictionary, settings } = options;
 
-    const remainingWords = Object.entries(options.dictionary.words).reduce<IWords>((acc, [type, words]) => {
+    const remainingWords = Object.entries(dictionary.words).reduce<IWords>((acc, [type, words]) => {
       const wordsType = type as EDictionaryTypes;
 
       const playedWordsForType = playedWords ? playedWords[wordsType] : [];
       const diff = _.difference(words, playedWordsForType);
 
-      acc[wordsType] = diff;
+      if (wordsType === EDictionaryTypes.Easy) {
+        acc[wordsType] = diff.slice(0, settings.easyRounds);
+      }
+
+      if (wordsType === EDictionaryTypes.Medium) {
+        acc[wordsType] = diff.slice(0, settings.mediumRounds);
+      }
+
+      if (wordsType === EDictionaryTypes.Hard) {
+        acc[wordsType] = diff.slice(0, settings.hardRounds);
+      }
+
+      if (wordsType === EDictionaryTypes.Extreme) {
+        acc[wordsType] = diff.slice(0, settings.extremeRounds);
+      }
 
       return acc;
     }, getEmptyWords());
@@ -72,6 +87,26 @@ export function GameProvider({ children, options }: IGameProviderProps) {
     return options.teams[activeTeam.teamId].players[activeTeam.activePlayerIndex].id;
   }, [activeTeam, options.teams]);
 
+  const getTeamScore = (teamId: string) => teamsState[teamId].score;
+
+  const getTeamDictionaryDifficulty = (teamId: string) => {
+    const score = getTeamScore(teamId);
+
+    if (score >= options.settings.easyRounds) {
+      return EDictionaryTypes.Medium;
+    }
+
+    if (score >= options.settings.mediumRounds) {
+      return EDictionaryTypes.Hard;
+    }
+
+    if (score >= options.settings.hardRounds) {
+      return EDictionaryTypes.Extreme;
+    }
+
+    return EDictionaryTypes.Easy;
+  };
+
   const nextTeam = () => {
     const teams = Object.values(teamsState);
     const nextIndex = teams.indexOf(activeTeam) + 1;
@@ -96,7 +131,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   const nextWord = () => {
     const { type, remaining, played } = wordsState;
 
-    const words = remaining[type];
+    const words = remaining[getTeamDictionaryDifficulty(activeTeamId)];
     const index = Math.floor(Math.random() * words.length);
     const nextActive = words[index];
 
