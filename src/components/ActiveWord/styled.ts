@@ -5,3 +5,9 @@ export const Word = styled.span`
   letter-spacing: 2px;
   text-transform: uppercase;
 `;
+
+export const NoWord = styled.span`
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: ${({ theme }) => theme.palette.grey[500]};
+`;
