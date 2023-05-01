@@ -30,7 +30,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
   const getInitialWordsState = (): TWordsState => {
     const { playedWords } = get<ISetupState>(LOCAL_STORAGE_KEY) || {};
-    const { dictionary, settings } = options;
+    const { dictionary } = options;
 
     const remainingWords = Object.entries(dictionary.words).reduce<IWords>((acc, [type, words]) => {
       const wordsType = type as EDictionaryTypes;
@@ -39,19 +39,19 @@ export function GameProvider({ children, options }: IGameProviderProps) {
       const diff = _.difference(words, playedWordsForType);
 
       if (wordsType === EDictionaryTypes.Easy) {
-        acc[wordsType] = diff.slice(0, settings.easyRounds);
+        acc[wordsType] = diff.slice(0);
       }
 
       if (wordsType === EDictionaryTypes.Medium) {
-        acc[wordsType] = diff.slice(0, settings.mediumRounds);
+        acc[wordsType] = diff.slice(0);
       }
 
       if (wordsType === EDictionaryTypes.Hard) {
-        acc[wordsType] = diff.slice(0, settings.hardRounds);
+        acc[wordsType] = diff.slice(0);
       }
 
       if (wordsType === EDictionaryTypes.Extreme) {
-        acc[wordsType] = diff.slice(0, settings.extremeRounds);
+        acc[wordsType] = diff.slice(0);
       }
 
       return acc;
@@ -91,19 +91,19 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   const getTeamDictionaryDifficulty = (teamId: string) => {
     const score = getTeamScore(teamId);
 
-    if (score >= options.settings.easyRounds) {
+    if (score < options.settings.easyRounds - 1) {
+      return EDictionaryTypes.Easy;
+    }
+
+    if (score < options.settings.easyRounds + options.settings.mediumRounds - 1) {
       return EDictionaryTypes.Medium;
     }
 
-    if (score >= options.settings.mediumRounds) {
+    if (score < options.settings.easyRounds + options.settings.mediumRounds + options.settings.hardRounds - 1) {
       return EDictionaryTypes.Hard;
     }
 
-    if (score >= options.settings.hardRounds) {
-      return EDictionaryTypes.Extreme;
-    }
-
-    return EDictionaryTypes.Easy;
+    return EDictionaryTypes.Extreme;
   };
 
   const nextTeam = () => {
@@ -155,8 +155,6 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   };
 
   const correctGuess = () => {
-    nextWord();
-
     const newScore = activeTeam.score + 1;
 
     setTeamsState((prevTeamsState) => ({
@@ -166,6 +164,8 @@ export function GameProvider({ children, options }: IGameProviderProps) {
         score: newScore,
       },
     }));
+
+    nextWord();
   };
 
   const setTeamScore = (id: string, score: number) => {
