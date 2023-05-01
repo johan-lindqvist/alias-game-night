@@ -31,7 +31,7 @@ export const TEAM_NAMES = [
   'WutFace',
 ];
 
-export const TEAM_COLORS = ['red', 'blue', 'yellow', 'green', 'purple', 'orange', 'cyan', 'magenta'];
+export const TEAM_COLORS = ['#6D374B', '#D00000', '#6F9596', '#E0A100', '#9FA167', '#3476AD'];
 
 export enum Keybinds {
   PlayPause = 'Space',

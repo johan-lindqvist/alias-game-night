@@ -83,7 +83,7 @@ export function Stopwatch() {
   return (
     <StopwatchContainer>
       <TimerText>{formattedTime}</TimerText>
-      <KeybindTooltip tooltip="Space">
+      <KeybindTooltip title="Space">
         {isRunning ? (
           <IconButton onClick={pause}>
             <Pause />

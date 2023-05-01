@@ -6,13 +6,13 @@ import { Slider } from '~/components/Slider';
 import { UploadGameDictionaryButton } from '~/components/UploadGameDictionaryButton';
 import { useSetupContext } from '~/hooks/useSetupContext';
 import { IGameDictionary, IGamePlayer, IGameSettings, IGameTeam } from '~/types';
-import { TeamGenerator } from '~/utils';
 
 import { formValuesMetaMap } from './meta';
 import { ColumnLeft, ColumnMiddle, ColumnRight, Container, Title } from './styled';
 
 export function SetupDialog() {
-  const { settings, dictionary, teams, updateSetupState, completeSetup, resetPlayedWords } = useSetupContext();
+  const { settings, dictionary, teams, updateSetupState, completeSetup, resetPlayedWords, removeTeam } =
+    useSetupContext();
 
   const submitDisabled = useMemo(() => {
     const teamsArr = Object.values(teams);
@@ -40,7 +40,7 @@ export function SetupDialog() {
   const handleRemoveTeam = (id: string) => {
     const { [id]: removedTeam, ...restTeams } = teams;
 
-    TeamGenerator.releaseTeam(removedTeam);
+    removeTeam(removedTeam);
 
     updateSetupState('teams', restTeams);
   };

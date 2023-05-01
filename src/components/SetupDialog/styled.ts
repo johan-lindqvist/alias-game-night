@@ -27,7 +27,9 @@ export const ColumnMiddle = styled.div`
   justify-content: center;
 `;
 
-export const ColumnRight = styled(ColumnLeft)``;
+export const ColumnRight = styled(ColumnLeft)`
+  overflow: auto;
+`;
 
 export const Title = styled.div`
   width: 100%;

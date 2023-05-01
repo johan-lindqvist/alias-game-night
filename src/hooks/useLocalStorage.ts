@@ -1,5 +1,8 @@
 import { useCallback } from 'react';
 
+import { ISetupState } from '~/components/SetupProvider/types';
+import { LOCAL_STORAGE_KEY } from '~/constants';
+
 export const useLocalStorage = () => {
   const get = useCallback(<T>(key: string): T | null => {
     const data = localStorage.getItem(key);
@@ -15,5 +18,15 @@ export const useLocalStorage = () => {
     localStorage.setItem(key, JSON.stringify(data));
   }, []);
 
-  return { get, set };
+  const getTeams = useCallback(() => {
+    const data = get<ISetupState>(LOCAL_STORAGE_KEY);
+
+    if (data) {
+      return data.teams;
+    }
+
+    return {};
+  }, [get]);
+
+  return { set, get, getTeams };
 };

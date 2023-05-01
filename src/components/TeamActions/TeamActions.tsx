@@ -33,12 +33,12 @@ export function TeamActions() {
 
   return (
     <ActionsContainer>
-      <KeybindTooltip tooltip="C">
+      <KeybindTooltip title="C">
         <StyledButton disabled={disabled} onClick={correctGuess}>
           Correct Guess
         </StyledButton>
       </KeybindTooltip>
-      <KeybindTooltip tooltip="S">
+      <KeybindTooltip title="S">
         <StyledButton disabled={disabled} onClick={nextWord}>
           Skip Word
         </StyledButton>

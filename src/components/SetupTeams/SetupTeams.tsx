@@ -1,19 +1,21 @@
 import { AddRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 
-import { TeamGenerator } from '~/utils';
+import { useSetupContext } from '~/hooks/useSetupContext';
 
 import { AddTeamButton, TeamsContainer } from './styled';
 import { Team } from './Team';
 import { ISetupTeamsProps } from './types';
 
 export function SetupTeams({ teams, onAddTeam, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }: ISetupTeamsProps) {
+  const { generateTeam } = useSetupContext();
+
   const teamsArr = Object.values(teams);
   const isTeamsFull = teamsArr.length >= 6;
 
   const handleAddTeam = () => {
     if (!isTeamsFull) {
-      onAddTeam(TeamGenerator.generateTeam());
+      onAddTeam(generateTeam());
     }
   };
 

@@ -12,6 +12,8 @@ export const TeamContainer = styled.div<ITeamContainerProps>`
     min-height: ${theme.custom.teamsCard.width * 1.25}px;
     border-radius: ${theme.custom.teamsCard.borderRadius}px;
 
+    text-shadow: 0px 1px 1px black;
+
     background-color: ${$color};
 
     transform: ${$active ? `translateY(${theme.custom.teamsCard.borderRadius}px)` : 'translateY(50%)'};

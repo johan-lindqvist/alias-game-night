@@ -3,10 +3,11 @@ import _ from 'lodash';
 
 import { LOCAL_STORAGE_KEY } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
+import { useTeamGenerator } from '~/hooks/useTeamGenerator';
 import { EDictionaryTypes } from '~/types';
 import { getEmptyWords } from '~/utils';
 
-import { INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
+import { INITIAL_SETTINGS } from './constants';
 import { ESetupState, ISetupContext, ISetupProviderProps, ISetupState, TUpdateKey, TUpdateValue } from './types';
 
 export const SetupContext = createContext<ISetupContext | null>(null);
@@ -14,13 +15,14 @@ export const SetupContext = createContext<ISetupContext | null>(null);
 export function SetupProvider({ children }: ISetupProviderProps) {
   const [setupState, setSetupState] = useState<ISetupState>({
     state: ESetupState.Setup,
-    teams: INITIAL_TEAMS,
+    teams: {},
     settings: INITIAL_SETTINGS,
     dictionary: null,
     playedWords: getEmptyWords(),
   });
 
-  const { get, set } = useLocalStorage();
+  const { set, get, getTeams } = useLocalStorage();
+  const { generateTeam, removeTeam } = useTeamGenerator(getTeams());
 
   useEffect(() => {
     const data = get<ISetupState>(LOCAL_STORAGE_KEY);
@@ -58,6 +60,8 @@ export function SetupProvider({ children }: ISetupProviderProps) {
     initializeSetup,
     addPlayedWord,
     resetPlayedWords,
+    generateTeam,
+    removeTeam,
   };
 
   return <SetupContext.Provider value={value}>{children}</SetupContext.Provider>;
