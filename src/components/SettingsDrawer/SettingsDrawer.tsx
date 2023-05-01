@@ -11,7 +11,7 @@ export function SettingsDrawer() {
   const [showDrawer, setShowDrawer] = useState(false);
 
   const { settings, resetPlayedWords } = useSetupContext();
-  const { quitGame } = useGameContext();
+  const { quitGame, restartGame } = useGameContext();
 
   const toggleDrawer = () => setShowDrawer(!showDrawer);
 
@@ -32,6 +32,11 @@ export function SettingsDrawer() {
           <ListItem>
             <Button fullWidth variant="outlined" onClick={resetPlayedWords}>
               Reset played words
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Button fullWidth variant="outlined" onClick={restartGame}>
+              Restart game
             </Button>
           </ListItem>
         </List>

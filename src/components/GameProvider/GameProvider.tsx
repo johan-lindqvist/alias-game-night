@@ -59,7 +59,6 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
     return {
       active: '',
-      type: EDictionaryTypes.Easy,
       remaining: remainingWords,
       played: {
         [EDictionaryTypes.Easy]: [],
@@ -129,27 +128,28 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   };
 
   const nextWord = () => {
-    const { type, remaining, played } = wordsState;
+    const { remaining, played } = wordsState;
+    const difficulty = getTeamDictionaryDifficulty(activeTeamId);
 
-    const words = remaining[getTeamDictionaryDifficulty(activeTeamId)];
+    const words = remaining[difficulty];
     const index = Math.floor(Math.random() * words.length);
     const nextActive = words[index];
 
-    addPlayedWord(type, nextActive);
+    addPlayedWord(difficulty, nextActive);
 
     const newRemaining = words.filter((word) => word !== nextActive);
-    const newPlayed = [...played[type], nextActive];
+    const newPlayed = [...played[difficulty], nextActive];
 
     setWordsState((prevWordsState) => ({
       ...prevWordsState,
       active: nextActive,
       played: {
         ...prevWordsState.played,
-        [type]: newPlayed,
+        [difficulty]: newPlayed,
       },
       remaining: {
         ...prevWordsState.remaining,
-        [type]: newRemaining,
+        [difficulty]: newRemaining,
       },
     }));
   };
@@ -178,6 +178,11 @@ export function GameProvider({ children, options }: IGameProviderProps) {
     }));
   };
 
+  const restartGame = () => {
+    setTeamsState(getInitialTeamsState());
+    setWordsState(getInitialWordsState());
+  };
+
   const value: IGameContext = {
     ...options,
     activeWord: wordsState.active,
@@ -187,6 +192,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
     quitGame,
     nextTeam,
     nextWord,
+    restartGame,
     correctGuess,
     setTeamScore,
   };

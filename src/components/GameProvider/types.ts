@@ -19,7 +19,6 @@ export type TTeamsState = Record<string, IGameContextTeam>;
 
 export type TWordsState = {
   active: string;
-  type: EDictionaryTypes;
   played: Record<EDictionaryTypes, string[]>;
   remaining: Record<EDictionaryTypes, string[]>;
 };
@@ -32,6 +31,7 @@ export interface IGameContext extends IGameOptions {
   quitGame: () => void;
   nextTeam: () => void;
   nextWord: () => void;
+  restartGame: () => void;
   correctGuess: () => void;
   setTeamScore: (id: string, score: number) => void;
 }
