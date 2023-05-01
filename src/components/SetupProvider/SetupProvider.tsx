@@ -4,8 +4,9 @@ import _ from 'lodash';
 import { LOCAL_STORAGE_KEY } from '~/constants';
 import { useLocalStorage } from '~/hooks/useLocalStorage';
 import { EDictionaryTypes } from '~/types';
+import { getEmptyWords } from '~/utils';
 
-import { INITIAL_PLAYED_WORDS, INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
+import { INITIAL_SETTINGS, INITIAL_TEAMS } from './constants';
 import { ESetupState, ISetupContext, ISetupProviderProps, ISetupState, TUpdateKey, TUpdateValue } from './types';
 
 export const SetupContext = createContext<ISetupContext | null>(null);
@@ -16,13 +17,13 @@ export function SetupProvider({ children }: ISetupProviderProps) {
     teams: INITIAL_TEAMS,
     settings: INITIAL_SETTINGS,
     dictionary: null,
-    playedWords: INITIAL_PLAYED_WORDS,
+    playedWords: getEmptyWords(),
   });
 
   const { get, set } = useLocalStorage();
 
   useEffect(() => {
-    const data = get<ISetupContext>(LOCAL_STORAGE_KEY);
+    const data = get<ISetupState>(LOCAL_STORAGE_KEY);
 
     if (data) {
       setSetupState(data);
@@ -36,23 +37,11 @@ export function SetupProvider({ children }: ISetupProviderProps) {
     setSetupState(updatedState);
   };
 
-  const completeSetup = () => {
-    const updatedState = { ...setupState, state: ESetupState.Complete };
+  const completeSetup = () => updateSetupState('state', ESetupState.Complete);
 
-    set(LOCAL_STORAGE_KEY, updatedState);
-    setSetupState(updatedState);
-  };
+  const initializeSetup = () => updateSetupState('state', ESetupState.Setup);
 
-  const initializeSetup = () => {
-    const updatedState = { ...setupState, state: ESetupState.Setup };
-
-    set(LOCAL_STORAGE_KEY, updatedState);
-    setSetupState(updatedState);
-  };
-
-  const resetPlayedWords = () => {
-    updateSetupState('playedWords', INITIAL_PLAYED_WORDS);
-  };
+  const resetPlayedWords = () => updateSetupState('playedWords', getEmptyWords());
 
   const addPlayedWord = (type: EDictionaryTypes, word: string) => {
     const newPlayedWords = _.cloneDeep(setupState.playedWords);

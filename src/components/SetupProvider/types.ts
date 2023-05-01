@@ -15,7 +15,7 @@ export interface ISetupState {
   playedWords: IWords;
 }
 
-export type TUpdateKey = keyof Omit<ISetupState, 'state'>;
+export type TUpdateKey = keyof ISetupState;
 export type TUpdateValue = ISetupState[TUpdateKey];
 
 export interface ISetupContext extends ISetupState {

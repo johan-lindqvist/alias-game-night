@@ -10,7 +10,7 @@ import { DrawerButton } from './styled';
 export function SettingsDrawer() {
   const [showDrawer, setShowDrawer] = useState(false);
 
-  const { settings } = useSetupContext();
+  const { settings, resetPlayedWords } = useSetupContext();
   const { quitGame } = useGameContext();
 
   const toggleDrawer = () => setShowDrawer(!showDrawer);
@@ -27,6 +27,11 @@ export function SettingsDrawer() {
           <ListItem>
             <Button fullWidth variant="contained" onClick={quitGame}>
               Quit game
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Button fullWidth variant="outlined" onClick={resetPlayedWords}>
+              Reset played words
             </Button>
           </ListItem>
         </List>

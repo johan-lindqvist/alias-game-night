@@ -1,13 +1,20 @@
 import { createContext, useMemo, useState } from 'react';
+import _ from 'lodash';
 
+import { ISetupState } from '~/components/SetupProvider/types';
+import { LOCAL_STORAGE_KEY } from '~/constants';
+import { useLocalStorage } from '~/hooks/useLocalStorage';
 import { useSetupContext } from '~/hooks/useSetupContext';
-import { EDictionaryTypes } from '~/types';
+import { EDictionaryTypes, IWords } from '~/types';
+import { getEmptyWords } from '~/utils';
 
 import { IGameContext, IGameProviderProps, TTeamsState, TWordsState } from './types';
 
 export const GameContext = createContext<IGameContext | null>(null);
 
 export function GameProvider({ children, options }: IGameProviderProps) {
+  const { get } = useLocalStorage();
+
   const getInitialTeamsState = (): TTeamsState => {
     return Object.values(options.teams).reduce<TTeamsState>((acc, team, index) => {
       const isActive = index === 0;
@@ -22,10 +29,23 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   };
 
   const getInitialWordsState = (): TWordsState => {
+    const { playedWords } = get<ISetupState>(LOCAL_STORAGE_KEY) || {};
+
+    const remainingWords = Object.entries(options.dictionary.words).reduce<IWords>((acc, [type, words]) => {
+      const wordsType = type as EDictionaryTypes;
+
+      const playedWordsForType = playedWords ? playedWords[wordsType] : [];
+      const diff = _.difference(words, playedWordsForType);
+
+      acc[wordsType] = diff;
+
+      return acc;
+    }, getEmptyWords());
+
     return {
       active: '',
       type: EDictionaryTypes.Easy,
-      remaining: options.dictionary.words,
+      remaining: remainingWords,
       played: {
         [EDictionaryTypes.Easy]: [],
         [EDictionaryTypes.Medium]: [],
