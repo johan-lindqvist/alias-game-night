@@ -1,5 +1,5 @@
 import { ChangeEvent, Fragment, useState } from 'react';
-import { ClearRounded } from '@mui/icons-material';
+import { AddRounded, ClearRounded } from '@mui/icons-material';
 import { Avatar, Card, Divider, IconButton, TextField, Typography, useTheme } from '@mui/material';
 import { v4 } from 'uuid';
 
@@ -10,20 +10,16 @@ export function Team({ team, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }
   const { id, color, name, players } = team;
   const [newPlayerName, setNewPlayerName] = useState('');
   const theme = useTheme();
+  const addButtonDisabled = newPlayerName.length < 2;
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewPlayerName(event.target.value);
+    setNewPlayerName(event.target.value.trim());
   };
 
-  const handleNameBlur = () => {
-    const trimmedName = newPlayerName.trim();
+  const handleAddPlayer = () => {
+    const newTeamPlayer = { id: v4(), name: newPlayerName };
 
-    if (trimmedName.length > 1) {
-      const newTeamPlayer = { id: v4(), name: trimmedName };
-
-      onAddTeamPlayer(newTeamPlayer);
-    }
-
+    onAddTeamPlayer(newTeamPlayer);
     setNewPlayerName('');
   };
 
@@ -54,13 +50,10 @@ export function Team({ team, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }
         ))}
         <Divider />
         <ContentRow>
-          <TextField
-            placeholder="Enter player name"
-            value={newPlayerName}
-            size="small"
-            onChange={handleNameChange}
-            onBlur={handleNameBlur}
-          />
+          <TextField placeholder="Enter player name" value={newPlayerName} size="small" onChange={handleNameChange} />
+          <IconButton sx={{ marginLeft: 1 }} disabled={addButtonDisabled} onClick={handleAddPlayer}>
+            <AddRounded />
+          </IconButton>
         </ContentRow>
       </CardContent>
     </Card>
