@@ -37,4 +37,5 @@ export enum Keybinds {
   PlayPause = 'Space',
   CorrectGuess = 'KeyC',
   SkipWord = 'KeyS',
+  AddPlayer = 'Enter',
 }
