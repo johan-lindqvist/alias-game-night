@@ -10,6 +10,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
       - run: npm ci
+        working-directory: ./frontend
+
       - run: npm run build
+        working-directory: ./frontend
