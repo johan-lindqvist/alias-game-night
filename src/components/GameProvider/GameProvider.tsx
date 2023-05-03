@@ -38,21 +38,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
       const playedWordsForType = playedWords ? playedWords[wordsType] : [];
       const diff = _.difference(words, playedWordsForType);
 
-      if (wordsType === EDictionaryTypes.Easy) {
-        acc[wordsType] = diff.slice(0);
-      }
-
-      if (wordsType === EDictionaryTypes.Medium) {
-        acc[wordsType] = diff.slice(0);
-      }
-
-      if (wordsType === EDictionaryTypes.Hard) {
-        acc[wordsType] = diff.slice(0);
-      }
-
-      if (wordsType === EDictionaryTypes.Extreme) {
-        acc[wordsType] = diff.slice(0);
-      }
+      acc[wordsType] = diff;
 
       return acc;
     }, getEmptyWords());
