@@ -1,79 +1,19 @@
 {
-  "name": "alias-game-night",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": ".",
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject",
-    "lint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "eslint --cache --fix \"src/**/*.{js,jsx,ts,tsx}\""
-  },
-  "devDependencies": {
-    "@craco/craco": "^7.0.0",
-    "@craco/types": "^7.0.0",
-    "@types/jest": "^29.0.0",
-    "@types/lodash": "^4.14.192",
-    "@types/node": "^18.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@types/styled-components": "^5.1.26",
-    "@types/uuid": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "eslint": "^8.0.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.0.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-config-standard-with-typescript": "^34.0.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "prettier": "2.8.7"
-  },
-  "dependencies": {
-    "@mui/icons-material": "^5.10.15",
-    "@mui/material": "^5.10.15",
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "react-timer-hook": "^3.0.5",
-    "styled-components": "^5.3.6",
-    "typescript": "^4.9.3",
-    "uuid": "^9.0.0",
-    "web-vitals": "^3.0.0",
-    "yup": "^0.32.11"
-  },
-  "resolutions": {
-    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+    "author": {
+      "name": "View Service",
+      "url": "https://github.com/johan-lindqvist/alias-game-night"
+    },
+    "cacheDirectories": [
+      "node_modules"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "devDependencies": {
+      "prettier": "2.8.8"
+    },
+    "license": "",
+    "name": "alias-game-night",
+    "private": true,
+    "repository": "https://github.com/johan-lindqvist/alias-game-night",
+    "scripts": {
+      "prettier": "prettier -w \"**/*.{yml,yaml}\""
+    }
   }
-}

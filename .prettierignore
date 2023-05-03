@@ -1,10 +1,1 @@
-# Ignore artifacts:
-build
-coverage
-node_modules
-
-# Ignore all HTML files:
-*.html
-
-# Ignore config files:
-craco.config.ts
+package-lock.json
