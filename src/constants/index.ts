@@ -34,8 +34,8 @@ export const TEAM_NAMES = [
 export const TEAM_COLORS = ['#6D374B', '#D00000', '#6F9596', '#E0A100', '#9FA167', '#3476AD'];
 
 export enum Keybinds {
-  PlayPause = 'Space',
-  CorrectGuess = 'KeyC',
-  SkipWord = 'KeyS',
+  PlayPause = ' ',
+  CorrectGuess = 'C',
+  SkipWord = 'S',
   AddPlayer = 'Enter',
 }

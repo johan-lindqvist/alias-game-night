@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 
+import { Keybinds } from '~/constants';
+
 import { TKeybinds } from './types';
 
 export function useKeybinds(keybinds: TKeybinds) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      const callback = keybinds[event.code];
+      const key = event.key as Keybinds;
+      const callback = keybinds[key];
 
       if (callback) {
         event.stopPropagation();
