@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
-
+import { KeybindTooltip } from '~/components/KeybindTooltip';
 import { Keybinds } from '~/constants';
 import { useGameContext } from '~/hooks/useGameContext';
-
-import { KeybindTooltip } from '../KeybindTooltip';
+import { useKeybinds } from '~/hooks/useKeybinds';
 
 import { ActionsContainer, StyledButton } from './styled';
 
@@ -11,25 +9,22 @@ export function TeamActions() {
   const { activeWord, nextWord, correctGuess, nextTeam } = useGameContext();
   const disabled = !activeWord;
 
-  useEffect(() => {
-    const onKeyPress = (event: KeyboardEvent) => {
-      if (disabled) {
-        return;
-      }
+  const onCorrectGuessKeybind = () => {
+    if (!disabled) {
+      correctGuess();
+    }
+  };
 
-      if (event.code === Keybinds.CorrectGuess) {
-        correctGuess();
-      }
+  const onSkipWordKeybind = () => {
+    if (!disabled) {
+      nextWord();
+    }
+  };
 
-      if (event.code === Keybinds.SkipWord) {
-        nextWord();
-      }
-    };
-
-    document.addEventListener('keypress', onKeyPress);
-
-    return () => document.removeEventListener('keypress', onKeyPress);
-  }, [disabled, correctGuess, nextWord]);
+  useKeybinds({
+    [Keybinds.CorrectGuess]: onCorrectGuessKeybind,
+    [Keybinds.SkipWord]: onSkipWordKeybind,
+  });
 
   return (
     <ActionsContainer>

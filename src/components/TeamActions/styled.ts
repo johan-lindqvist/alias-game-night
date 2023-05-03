@@ -14,12 +14,17 @@ export const StyledButton = styled.button`
   outline: none;
   border: none;
   background-color: transparent;
+  border-radius: 10px;
 
   transition: all 200ms ease;
 
   &:hover:enabled {
     cursor: pointer;
     color: #fff;
+  }
+
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   &:disabled {

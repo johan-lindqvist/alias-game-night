@@ -1,9 +1,10 @@
-import { ChangeEvent, Fragment, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, Fragment, useState } from 'react';
 import { AddRounded, ClearRounded } from '@mui/icons-material';
 import { Avatar, Card, Divider, IconButton, TextField, Typography, useTheme } from '@mui/material';
 import { v4 } from 'uuid';
 
 import { Keybinds } from '~/constants';
+import { useKeybinds } from '~/hooks/useKeybinds';
 
 import { CardContent, CardHeader, ContentRow, StyledCardTitle } from './styled';
 import { ITeamProps } from './types';
@@ -18,28 +19,22 @@ export function Team({ team, onAddTeamPlayer, onRemoveTeam, onRemoveTeamPlayer }
     setNewPlayerName(event.target.value.trim());
   };
 
-  const addPlayer = useCallback(() => {
+  const addPlayer = () => {
+    if (addPlayerDisabled) {
+      return;
+    }
+
     const newTeamPlayer = { id: v4(), name: newPlayerName };
 
     onAddTeamPlayer(newTeamPlayer);
     setNewPlayerName('');
-  }, [newPlayerName, onAddTeamPlayer]);
+  };
 
   const handleRemoveTeam = () => {
     onRemoveTeam(id);
   };
 
-  useEffect(() => {
-    const onKeyPress = (event: KeyboardEvent) => {
-      if (event.code === Keybinds.AddPlayer && !addPlayerDisabled) {
-        addPlayer();
-      }
-    };
-
-    document.addEventListener('keypress', onKeyPress);
-
-    return () => document.removeEventListener('keypress', onKeyPress);
-  }, [addPlayer, addPlayerDisabled]);
+  useKeybinds({ [Keybinds.AddPlayer]: addPlayer });
 
   return (
     <Card sx={{ margin: 1, width: theme.custom.teamsCard.width }}>

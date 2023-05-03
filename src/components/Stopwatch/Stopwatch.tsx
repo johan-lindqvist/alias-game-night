@@ -5,6 +5,7 @@ import { IconButton } from '@mui/material';
 
 import { Keybinds } from '~/constants';
 import { useGameContext } from '~/hooks/useGameContext';
+import { useKeybinds } from '~/hooks/useKeybinds';
 
 import { KeybindTooltip } from '../KeybindTooltip';
 
@@ -64,17 +65,7 @@ export function Stopwatch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTeamId]);
 
-  useEffect(() => {
-    const onKeyPress = (event: KeyboardEvent) => {
-      if (event.code === Keybinds.PlayPause) {
-        handlePlayButtonClick();
-      }
-    };
-
-    document.addEventListener('keypress', onKeyPress);
-
-    return () => document.removeEventListener('keypress', onKeyPress);
-  }, [handlePlayButtonClick]);
+  useKeybinds({ [Keybinds.PlayPause]: handlePlayButtonClick });
 
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
