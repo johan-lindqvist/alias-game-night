@@ -35,7 +35,7 @@ export const TEAM_COLORS = ['#6D374B', '#D00000', '#6F9596', '#E0A100', '#9FA167
 
 export enum Keybinds {
   PlayPause = ' ',
-  CorrectGuess = 'C',
-  SkipWord = 'S',
+  CorrectGuess = 'c',
+  SkipWord = 's',
   AddPlayer = 'Enter',
 }
