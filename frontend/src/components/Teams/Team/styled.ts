@@ -2,6 +2,13 @@ import styled from 'styled-components';
 
 import { ITeamContainerProps } from './types';
 
+export const TeamColor = styled.div`
+  height: 8px;
+  width: 100%;
+  border-radius: 4px;
+  margin-bottom: 20px;
+`;
+
 export const TeamContainer = styled.div<ITeamContainerProps>`
   ${({ theme, $color, $active }) => `
     display: flex;
@@ -12,12 +19,14 @@ export const TeamContainer = styled.div<ITeamContainerProps>`
     min-height: ${theme.custom.teamsCard.width * 1.25}px;
     border-radius: ${theme.custom.teamsCard.borderRadius}px;
 
-    text-shadow: 0px 1px 1px black;
-
-    background-color: ${$color};
+    background-color: rgba(0, 0, 0, 0.35);
 
     transform: ${$active ? `translateY(${theme.custom.teamsCard.borderRadius}px)` : 'translateY(50%)'};
 
     transition: transform 250ms ease-in-out;
+
+    ${TeamColor} {
+      background-color: ${$color};
+    }
   `}
 `;

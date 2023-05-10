@@ -7,6 +7,11 @@ import { IMarkerContainerProps, IRowContainerProps } from './types';
 export const TeamName = styled.div`
   height: ${CELL_SIZE}px;
   width: ${TEAM_NAME_WIDTH}px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-weight: bold;
+  text-shadow: black 0px 1px 1px;
 `;
 
 export const Cell = styled.div`
@@ -49,6 +54,7 @@ export const MarkerContainer = styled.div<IMarkerContainerProps>`
 export const Marker = styled.div`
   width: 10px;
   height: 10px;
+  border-radius: 2px;
 `;
 
 export const RowContainer = styled.div<IRowContainerProps>`
