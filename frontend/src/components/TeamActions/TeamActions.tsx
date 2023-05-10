@@ -38,7 +38,7 @@ export function TeamActions() {
           Skip Word
         </StyledButton>
       </KeybindTooltip>
-      <StyledButton onClick={nextTeam}>Next Team</StyledButton>
+      <StyledButton onClick={() => nextTeam()}>Next Team</StyledButton>
     </ActionsContainer>
   );
 }

@@ -7,11 +7,11 @@ import { IGameBoardContext, IGameBoardProviderProps, TTeamPositions } from './ty
 export const GameBoardContext = createContext<IGameBoardContext | null>(null);
 
 export function GameBoardProvider({ children }: IGameBoardProviderProps) {
-  const { settings, teams, activeTeamId, activeTeam, setTeamScore } = useGameContext();
+  const { settings, gameContextTeams: teams, activeTeamId, setTeamScore } = useGameContext();
 
   const getInitialTeamPositions = (): TTeamPositions => {
     return Object.values(teams).reduce<TTeamPositions>((acc, team) => {
-      acc[team.id] = 0;
+      acc[team.teamId] = 0;
 
       return acc;
     }, {});
@@ -36,11 +36,19 @@ export function GameBoardProvider({ children }: IGameBoardProviderProps) {
     [activeTeamId, setTeamScore],
   );
 
+  const moveTeamsToTheirPositions = useCallback(() => {
+    const newTeamPositions = Object.values(teams).reduce<TTeamPositions>((acc, team) => {
+      acc[team.teamId] = team.score;
+
+      return acc;
+    }, {});
+
+    setTeamPositions(newTeamPositions);
+  }, [teams]);
+
   useEffect(() => {
-    if (activeTeam.score !== teamPositions[activeTeamId]) {
-      moveTeamToPosition(activeTeam.score);
-    }
-  }, [activeTeam, activeTeamId, moveTeamToPosition, teamPositions]);
+    moveTeamsToTheirPositions();
+  }, [teams, moveTeamsToTheirPositions]);
 
   const value: IGameBoardContext = {
     rowCells,

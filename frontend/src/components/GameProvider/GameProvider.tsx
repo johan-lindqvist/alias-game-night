@@ -18,11 +18,12 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   const getInitialTeamsState = (): TTeamsState => {
     return Object.values(options.teams).reduce<TTeamsState>((acc, team, index) => {
       const isActive = index === 0;
+      const isFinished = false;
       const activePlayerIndex = isActive ? 0 : -1;
       const teamId = team.id;
       const score = 0;
 
-      acc[teamId] = { score, teamId, isActive, activePlayerIndex };
+      acc[teamId] = { score, teamId, isActive, isFinished, activePlayerIndex };
 
       return acc;
     }, {});
@@ -92,10 +93,22 @@ export function GameProvider({ children, options }: IGameProviderProps) {
     return EDictionaryTypes.Extreme;
   };
 
-  const nextTeam = () => {
+  const nextTeam = (index?: number) => {
     const teams = Object.values(teamsState);
-    const nextIndex = teams.indexOf(activeTeam) + 1;
+    const isAllTeamsFinished = teams.every((team) => team.isFinished);
+
+    if (isAllTeamsFinished) {
+      return;
+    }
+
+    const nextIndex = index || teams.indexOf(activeTeam) + 1;
     const nextActiveTeam = nextIndex > teams.length - 1 ? teams[0] : teams[nextIndex];
+
+    if (nextActiveTeam.isFinished) {
+      nextTeam(teams.indexOf(nextActiveTeam) + 1);
+      return;
+    }
+
     const nextActivePlayerIndex =
       (nextActiveTeam.activePlayerIndex + 1) % options.teams[nextActiveTeam.teamId].players.length;
 
@@ -140,13 +153,25 @@ export function GameProvider({ children, options }: IGameProviderProps) {
     }));
   };
 
+  const isTeamFinished = (currentScore: number) => {
+    const { settings } = options;
+    const { easyRounds, mediumRounds, hardRounds, extremeRounds } = settings;
+
+    const maxScore = easyRounds + mediumRounds + hardRounds + extremeRounds;
+
+    return currentScore > maxScore;
+  };
+
   const correctGuess = () => {
     const newScore = activeTeam.score + 1;
+
+    const finished = isTeamFinished(newScore);
 
     setTeamsState((prevTeamsState) => ({
       ...prevTeamsState,
       [activeTeamId]: {
         ...prevTeamsState[activeTeamId],
+        isFinished: finished,
         score: newScore,
       },
     }));
@@ -155,10 +180,13 @@ export function GameProvider({ children, options }: IGameProviderProps) {
   };
 
   const setTeamScore = (id: string, score: number) => {
+    const isFinished = isTeamFinished(score);
+
     setTeamsState((prevTeamsState) => ({
       ...prevTeamsState,
       [id]: {
         ...prevTeamsState[id],
+        isFinished,
         score,
       },
     }));
@@ -171,6 +199,7 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
   const value: IGameContext = {
     ...options,
+    gameContextTeams: Object.values(teamsState),
     activeWord: wordsState.active,
     activeTeam,
     activeTeamId,

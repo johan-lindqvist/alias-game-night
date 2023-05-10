@@ -13,6 +13,7 @@ interface IGameContextTeam {
   teamId: string;
   activePlayerIndex: number;
   isActive: boolean;
+  isFinished: boolean;
 }
 
 export type TTeamsState = Record<string, IGameContextTeam>;
@@ -24,6 +25,7 @@ export type TWordsState = {
 };
 
 export interface IGameContext extends IGameOptions {
+  gameContextTeams: IGameContextTeam[];
   activeWord: string;
   activeTeam: IGameContextTeam;
   activeTeamId: string;
