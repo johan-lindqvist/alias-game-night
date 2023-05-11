@@ -15,10 +15,10 @@ export const AddTeamButton = styled.div`
   margin: ${({ theme }) => theme.spacing(1)};
   border: 2px dashed ${({ theme }) => theme.palette.grey[400]};
   border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-  color: ${({ theme }) => theme.palette.grey[700]};
+  color: ${({ theme }) => theme.palette.grey[600]};
 
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.palette.grey[900]};
+    color: ${({ theme }) => theme.palette.grey[200]};
   }
 `;
