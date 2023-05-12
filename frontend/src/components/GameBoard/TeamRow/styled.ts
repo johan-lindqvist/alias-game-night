@@ -12,6 +12,7 @@ export const TeamName = styled.div`
   padding-left: 10px;
   font-weight: bold;
   text-shadow: black 0px 1px 1px;
+  border-radius: 4px;
 `;
 
 export const Cell = styled.div`
@@ -24,6 +25,7 @@ export const FinishLine = styled.div`
   width: ${FINISH_LINE_WIDTH}px;
   height: ${CELL_SIZE}px;
   background-color: white;
+  border-radius: 2px;
 `;
 
 const getPosition = ({ $position, $inGoal }: IMarkerContainerProps) => {
@@ -60,6 +62,7 @@ export const Marker = styled.div`
 export const RowContainer = styled.div<IRowContainerProps>`
   position: relative;
   display: flex;
+  margin-bottom: 2px;
 
   ${TeamName} {
     background-color: ${({ $color }) => $color};

@@ -17,4 +17,5 @@ export const Marker = styled.div<IMarkerProps>`
   width: ${({ $rounds }) => `calc(${CELL_SIZE}px * ${$rounds})`};
   border: 1px solid black;
   background-color: #222;
+  border-radius: 4px;
 `;
