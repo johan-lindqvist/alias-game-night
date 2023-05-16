@@ -14,7 +14,7 @@ import { StopwatchContainer, TimerText } from './styled';
 export function Stopwatch() {
   const [isStarted, setIsStarted] = useState(false);
 
-  const { settings, nextWord, activeTeamId } = useGameContext();
+  const { settings, nextWord, activeTeamId, activeTeam } = useGameContext();
   const { time } = settings;
 
   const getExpiryTimestamp = () => {
@@ -65,6 +65,13 @@ export function Stopwatch() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTeamId]);
 
+  useEffect(() => {
+    if (activeTeam.isFinished) {
+      handleRestart();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTeam]);
+
   useKeybinds({ [Keybinds.PlayPause]: handlePlayButtonClick });
 
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
@@ -80,12 +87,12 @@ export function Stopwatch() {
             <Pause />
           </IconButton>
         ) : (
-          <IconButton onClick={handlePlayButtonClick}>
+          <IconButton disabled={activeTeam.isFinished} onClick={handlePlayButtonClick}>
             <PlayArrow />
           </IconButton>
         )}
       </KeybindTooltip>
-      <IconButton onClick={handleRestart}>
+      <IconButton disabled={activeTeam.isFinished} onClick={handleRestart}>
         <Replay />
       </IconButton>
     </StopwatchContainer>

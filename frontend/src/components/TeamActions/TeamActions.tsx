@@ -6,8 +6,8 @@ import { useKeybinds } from '~/hooks/useKeybinds';
 import { ActionsContainer, StyledButton } from './styled';
 
 export function TeamActions() {
-  const { activeWord, nextWord, correctGuess, nextTeam } = useGameContext();
-  const disabled = !activeWord;
+  const { activeWord, activeTeam, nextWord, correctGuess, nextTeam } = useGameContext();
+  const disabled = !activeWord || activeTeam.isFinished;
 
   const onCorrectGuessKeybind = () => {
     if (!disabled) {
@@ -34,7 +34,7 @@ export function TeamActions() {
         </StyledButton>
       </KeybindTooltip>
       <KeybindTooltip title="S">
-        <StyledButton disabled={disabled} onClick={nextWord}>
+        <StyledButton disabled={disabled} onClick={() => nextWord()}>
           Skip Word
         </StyledButton>
       </KeybindTooltip>

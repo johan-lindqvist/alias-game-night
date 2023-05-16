@@ -75,18 +75,21 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
   const getTeamScore = (teamId: string) => teamsState[teamId].score;
 
-  const getTeamDictionaryDifficulty = (teamId: string) => {
-    const score = getTeamScore(teamId);
+  const getTeamDictionaryDifficulty = (teamId: string, newScore?: number) => {
+    const score = newScore || getTeamScore(teamId);
 
-    if (score < options.settings.easyRounds - 1) {
+    let limit = options.settings.easyRounds;
+    if (score < limit) {
       return EDictionaryTypes.Easy;
     }
 
-    if (score < options.settings.easyRounds + options.settings.mediumRounds - 1) {
+    limit = options.settings.easyRounds + options.settings.mediumRounds;
+    if (score < limit) {
       return EDictionaryTypes.Medium;
     }
 
-    if (score < options.settings.easyRounds + options.settings.mediumRounds + options.settings.hardRounds - 1) {
+    limit = options.settings.easyRounds + options.settings.mediumRounds + options.settings.hardRounds;
+    if (score < limit) {
       return EDictionaryTypes.Hard;
     }
 
@@ -126,9 +129,9 @@ export function GameProvider({ children, options }: IGameProviderProps) {
     }));
   };
 
-  const nextWord = () => {
+  const nextWord = (score?: number) => {
     const { remaining, played } = wordsState;
-    const difficulty = getTeamDictionaryDifficulty(activeTeamId);
+    const difficulty = getTeamDictionaryDifficulty(activeTeamId, score);
 
     const words = remaining[difficulty];
     const index = Math.floor(Math.random() * words.length);
@@ -159,13 +162,17 @@ export function GameProvider({ children, options }: IGameProviderProps) {
 
     const maxScore = easyRounds + mediumRounds + hardRounds + extremeRounds;
 
-    return currentScore > maxScore;
+    return currentScore >= maxScore;
   };
 
   const correctGuess = () => {
     const newScore = activeTeam.score + 1;
 
     const finished = isTeamFinished(newScore);
+
+    if (!finished) {
+      nextWord(newScore);
+    }
 
     setTeamsState((prevTeamsState) => ({
       ...prevTeamsState,
@@ -175,8 +182,6 @@ export function GameProvider({ children, options }: IGameProviderProps) {
         score: newScore,
       },
     }));
-
-    nextWord();
   };
 
   const setTeamScore = (id: string, score: number) => {
