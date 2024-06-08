@@ -99,7 +99,9 @@ export function UploadGameDictionaryButton({ onFileUpload }: IUploadGameDictiona
             columns.forEach((column) => {
               const newWord = row[acc[column].index];
 
-              acc[column].words = [...acc[column].words, newWord];
+              if (newWord) {
+                acc[column].words = [...acc[column].words, newWord];
+              }
             });
 
             return acc;
