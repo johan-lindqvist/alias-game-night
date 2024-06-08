@@ -92,6 +92,8 @@ export function UploadGameDictionaryButton({ onFileUpload }: IUploadGameDictiona
           if (isInvalid) {
             // eslint-disable-next-line no-console
             console.error('Invalid file format');
+            // eslint-disable-next-line no-alert
+            alert('Invalid file format');
             return;
           }
 
