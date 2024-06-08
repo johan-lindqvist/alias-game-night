@@ -1,19 +1,19 @@
 {
     "author": {
-      "name": "View Service",
-      "url": "https://github.com/johan-lindqvist/alias-game-night"
+        "name": "View Service",
+        "url": "https://github.com/johan-lindqvist/alias-game-night"
     },
     "cacheDirectories": [
-      "node_modules"
+        "node_modules"
     ],
     "devDependencies": {
-      "prettier": "2.8.8"
+        "prettier": "2.8.8"
     },
     "license": "",
     "name": "alias-game-night",
     "private": true,
     "repository": "https://github.com/johan-lindqvist/alias-game-night",
     "scripts": {
-      "prettier": "prettier -w \"**/*.{yml,yaml}\""
+        "prettier": "prettier -w \"**/*.{yml,yaml}\""
     }
-  }
+}
