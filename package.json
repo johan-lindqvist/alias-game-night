@@ -7,7 +7,7 @@
         "node_modules"
     ],
     "devDependencies": {
-        "prettier": "2.8.8"
+        "prettier": "3.7.4"
     },
     "license": "",
     "name": "alias-game-night",
