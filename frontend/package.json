@@ -14,7 +14,7 @@
   "devDependencies": {
     "@craco/craco": "^7.0.0",
     "@craco/types": "^7.0.0",
-    "@types/jest": "^29.0.0",
+    "@types/jest": "^30.0.0",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.0.0",
     "@types/papaparse": "^5.3.14",
